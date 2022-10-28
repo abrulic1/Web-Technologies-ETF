@@ -1,0 +1,27 @@
+
+ table, td, th{
+    border: 1px solid #0f0f0a;
+    border-collapse: collapse;
+    border-style: solid;
+  }
+
+.glavna-tabela{
+    width: 100%;
+}
+
+/*ovo za iducu i aktivnu sa min-width provjeriti*/
+.glavna-tabela .iducesedmice{
+    min-width: 100px;
+}
+
+.glavna-tabela .aktivnasedmica{
+    min-width: 80px;
+}
+
+.glavna-tabela #imeiprezime{
+  width: 0px;
+}
+
+.glavna-tabela #index{
+    width: 90px;
+  }
