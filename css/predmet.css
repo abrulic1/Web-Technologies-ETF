@@ -1,49 +1,81 @@
 body{
-    height: 3000px;
-    width: cal(100vw/200px);
-    
+    background-color: rgb(252, 233, 233);
+}
+
+html{
+    scroll-behavior: smooth;
+    scroll-padding-top: 130px;
 }
 .izbornik{
     display: flex;
     justify-content: space-between;
     position: fixed;
-    top:0;
-    /*koliko ce fixed bit udaljen*/
-    width: 100%;
-    margin: 0px 10px;
+    top:5px;
+    right: 10px;
+    left: 10px;
     color: rgb(89, 118, 232);
-    background-color: #CCCCCC;
+    background-color: rgb(255, 255, 255);
+    z-index: 100;
+    font-size: 17px;
+    padding: 10px 7px;
 }
 
+
 .izbornik div{
-    margin-left: 10px;
+    margin: 0 10px;
 }
 
 .izbornik li{
     list-style: none;
     display: inline;
     text-decoration: underline;
+    cursor: pointer;
+
 }
 
-.izbornik p,
+.izbornik p{
+    margin: 0;
+    cursor: pointer;
+}
+
 .izbornik ul{
-    margin: 0px;
+    margin: 0;
 }
-
 
 .grid-predmeta{
-    margin-top: 100px;
+    margin: 135px 10px;
+}
+
+.grid-predmeta p{
+    font-weight: bold;
+    font-size: 22px;
+    margin: 10px;
+}
+
+.grid-predmeta div{
+    margin-bottom: 30px;
 }
 
 
-.bsc_1{
+.bsc_1,
+.bsc_2{
     display: grid;
     grid-template-columns: repeat(auto-fit, 200px);
-    grid-template-rows: 10px;
+    column-gap: 10px;
+    row-gap: 10px;
+    /*grid-template-rows: 200px;*/
     width: 100%;
     justify-content: space-between;
 }
 
-.bsc_1 div{
-    margin-left: 10px;
+.bsc_1 div,
+.bsc_2 div{
+    padding: 30px;
+    background-color: pink;
+/*margin-bottom: 10px;*/
+}
+
+.bsc_1 p{
+    font-size: 15px;
+    text-align: center;
 }
