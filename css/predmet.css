@@ -1,0 +1,49 @@
+body{
+    height: 3000px;
+    width: cal(100vw/200px);
+    
+}
+.izbornik{
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    top:0;
+    /*koliko ce fixed bit udaljen*/
+    width: 100%;
+    margin: 0px 10px;
+    color: rgb(89, 118, 232);
+    background-color: #CCCCCC;
+}
+
+.izbornik div{
+    margin-left: 10px;
+}
+
+.izbornik li{
+    list-style: none;
+    display: inline;
+    text-decoration: underline;
+}
+
+.izbornik p,
+.izbornik ul{
+    margin: 0px;
+}
+
+
+.grid-predmeta{
+    margin-top: 100px;
+}
+
+
+.bsc_1{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 200px);
+    grid-template-rows: 10px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.bsc_1 div{
+    margin-left: 10px;
+}
