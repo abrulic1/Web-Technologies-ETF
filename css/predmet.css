@@ -75,7 +75,8 @@ html{
 /*margin-bottom: 10px;*/
 }
 
-.bsc_1 p{
+.bsc_1 p,
+.bsc_2 p{
     font-size: 15px;
     text-align: center;
 }
