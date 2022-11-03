@@ -6,9 +6,10 @@ html{
     scroll-behavior: smooth;
     scroll-padding-top: 130px;
 }
+
 .izbornik{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     position: fixed;
     top:0px;
     right: 0px;
@@ -20,11 +21,11 @@ html{
     padding: 12px 9px;
 }
 
-@media (max-width: 830px){
+@media (max-width: 800px){
     .izbornik{
         position: relative;
     }
-}
+} 
 
 
 .izbornik div{
@@ -68,10 +69,10 @@ html{
     display: grid;
     grid-template-columns: 200px;
     row-gap: 10px;
-    /*grid-template-rows: 200px;*/
     justify-content: center !important;
 }
 }
+
 
 .bsc_1,
 .bsc_2{

@@ -1,63 +1,38 @@
 
- table, td, th{
+table{
+  border-spacing: 0px;
+  width: 85%;
+}
+
+.glavna-tabela .iducesedmice{
+  width: 30%;
+}
+
+.glavna-tabela tr,
+.glavna-tabela td,
+.glavna-tabela th{
     border: 1px solid #0f0f0a;
     border-collapse: collapse;
-  }
-
-.glavna-tabela{
-    width: 85%;
-    margin-left: auto;
-    margin-right: auto;
+}
+.glavna-tabela table{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #0f0f0a;
+  border-collapse: collapse;
 }
 
-/*ovo za iducu i aktivnu sa min-width provjeriti*/
-.glavna-tabela .iducesedmice{
-    min-width: 100px;
-}
-
-.glavna-tabela .aktivnasedmica{
-    min-width: 80px;
-}
-
-.glavna-tabela #imeiprezime{
-  width: 0px;
-}
-
-.glavna-tabela #index{
-    width: 90px;
-  }
-
-  /* .mala-tabela{
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-
-  }
-
-  .mala-tabela div{
-    border: 1px solid black;
-
-  } */
-
-  .mala-tabela{
-    width: 100%;
-  }
-
-  .aktivnasedmica-tr1 p{
-    margin: 0px;
-    padding: 0px;
-  }
-
-  .aktivnasedmica-tr2 td{
-    padding: 18px 0px;
-  }
-
-  .aktivnasedmica-tr2 .prisutan{
+ .prisutan{
     background-color: rgb(183, 72, 72);
+    padding: 20px 15px;
   }
  
-  .aktivnasedmica-tr2 .odsutan{
+  .odsutan{
     background-color: rgb(91, 179, 91);
+    padding: 20px 15px;
   }
  
+  .prisustvo-evidencija{
+    text-align: center;
+  }
  
