@@ -2,11 +2,12 @@
  table, td, th{
     border: 1px solid #0f0f0a;
     border-collapse: collapse;
-    border-style: solid;
   }
 
 .glavna-tabela{
-    width: 100%;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /*ovo za iducu i aktivnu sa min-width provjeriti*/
@@ -25,3 +26,38 @@
 .glavna-tabela #index{
     width: 90px;
   }
+
+  /* .mala-tabela{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+
+  }
+
+  .mala-tabela div{
+    border: 1px solid black;
+
+  } */
+
+  .mala-tabela{
+    width: 100%;
+  }
+
+  .aktivnasedmica-tr1 p{
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .aktivnasedmica-tr2 td{
+    padding: 18px 0px;
+  }
+
+  .aktivnasedmica-tr2 .prisutan{
+    background-color: rgb(183, 72, 72);
+  }
+ 
+  .aktivnasedmica-tr2 .odsutan{
+    background-color: rgb(91, 179, 91);
+  }
+ 
+ 
