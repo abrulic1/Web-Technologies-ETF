@@ -1,6 +1,6 @@
 html{
     scroll-behavior: smooth;
-    scroll-padding-top: 100px;
+    scroll-padding-top: 120px;
 }
 
 .izbornik{
@@ -47,51 +47,7 @@ html{
     margin: 10px;
 }
 
-/* @media (max-width:300px){
-    .bsc_1,
-    .bsc_2{
-    display: grid;
-    grid-template-columns: 200px;
-    row-gap: 10px;
-    justify-content: center !important;
-}
-}
-
-@media (max-width:440px){
-    .bsc_1,
-    .bsc_2{
-    display: grid;
-    grid-template-columns: 200px 200px;
-    row-gap: 10px;
-    column-gap: 10px;
-    width: 100%;
-    justify-content: space-around;
-}
-}
-
-@media (max-width:660px){
-    .bsc_1,
-    .bsc_2{
-    display: grid;
-    grid-template-columns: 200px 200px 200px;
-    row-gap: 10px;
-    column-gap: 10px;
-    width: 100%;
-    justify-content: space-around;
-}
-}
-
-@media (max-width: 800px){
-    .izbornik{
-        position: relative;
-        font-size: 10px;
-        z-index: 0;
-        margin: 0;
-    }
-}  */
-
-.bsc_1,
-.bsc_2{
+.bsc_1, .bsc_2, .bsc_3, .rs_1, .rs_2{
     display: grid;
     grid-template-columns: repeat(auto-fit, 200px);
     column-gap: 10px;
@@ -100,16 +56,44 @@ html{
     justify-content: space-around;
 }
 
-.bsc_1 div,
-.bsc_2 div{
+/*Na ovoj sirini vise ne mogu da stanu nazivi odsjeka u meniju u jedan red, pa zato 
+postavljamo position na relativ, i smanjujem font size radi ljepseg izgleda*/
+@media all and (width <= 800px){
+    .izbornik{
+        position: relative;
+        font-size: 10px;
+        z-index: 0;
+        margin: 0;
+    }
+}  
+
+/*iz postavke*/
+@media all and (width <= 300px){
+    .bsc_1,
+    .bsc_2,
+    .rs_1, 
+    .rs_2, 
+    .bsc_3{
+    display: grid;
+    grid-template-columns: 200px;
+    row-gap: 10px;
+    justify-content: center;
+}
+}
+
+
+#ri, #aie, #tk, #ee{
+    margin-bottom: 50px;
+    border-top: 1px solid lightgray;
+}
+
+.bsc_1 div, .bsc_2 div, .bsc_3 div, .rs_1 div, .rs_2 div{
     padding: 30px;
     border: 1px solid black;
     border-radius: 4px;
-/*margin-bottom: 10px;*/
 }
 
-.bsc_1 p,
-.bsc_2 p{
+.bsc_1 p, .bsc_2 p, .bsc_3 p, .rs_1 p, .rs_2 p{
     font-size: 15px;
     text-align: center;
 }
