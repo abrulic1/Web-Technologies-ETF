@@ -1,38 +1,54 @@
-
-table{
+  table{
   border-spacing: 0px;
   width: 85%;
+  border: 1px solid black;
+  border-collapse: collapse;
 }
 
 .glavna-tabela .iducesedmice{
   width: 30%;
 }
 
-.glavna-tabela tr,
-.glavna-tabela td,
-.glavna-tabela th{
+.glavna-tabela tr{
     border: 1px solid #0f0f0a;
-    border-collapse: collapse;
+    text-align: center;
+    vertical-align: text-top;
 }
+
+.glavna-tabela td{
+  padding-top: 10px;
+  border: 1px solid #0f0f0a;
+  text-align: center;
+  vertical-align: text-top;
+}
+
+.glavna-tabela th{
+  text-align: left;
+  padding-left: 10px;
+  padding: 7px 0px 7px 7px;
+  border: 1px solid #0f0f0a;
+  text-align: center;
+  vertical-align: text-top;
+}
+
+
 .glavna-tabela table{
   width: 90%;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid #0f0f0a;
-  border-collapse: collapse;
 }
 
  .prisutan{
     background-color: rgb(183, 72, 72);
-    padding: 20px 15px;
+    padding: 30px 15px;
   }
  
   .odsutan{
     background-color: rgb(91, 179, 91);
-    padding: 20px 15px;
+    padding: 30px 15px;
   }
  
   .prisustvo-evidencija{
     text-align: center;
   }
- 
