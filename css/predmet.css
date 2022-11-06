@@ -47,7 +47,7 @@ html{
     margin: 10px;
 }
 
-.bsc_1, .bsc_2, .bsc_3, .rs_1, .rs_2{
+.bsc_1, .bsc_2, .bsc_3, .rs_1, .rs_2, .msc_1, .msc_2{
     display: grid;
     grid-template-columns: repeat(auto-fit, 200px);
     column-gap: 10px;
@@ -61,19 +61,19 @@ postavljamo position na relativ, i smanjujem font size radi ljepseg izgleda*/
 @media all and (width <= 800px){
     .izbornik{
         position: relative;
-        font-size: 10px;
         z-index: 0;
         margin: 0;
+        display: block;
+    }
+
+    .izbornik div{
+        margin-bottom: 10px;
     }
 }  
 
 /*iz postavke*/
 @media all and (width <= 300px){
-    .bsc_1,
-    .bsc_2,
-    .rs_1, 
-    .rs_2, 
-    .bsc_3{
+    .bsc_1, .bsc_2, .rs_1,  .rs_2, .bsc_3, .msc_1, .msc_2{
     display: grid;
     grid-template-columns: 200px;
     row-gap: 10px;
@@ -87,13 +87,13 @@ postavljamo position na relativ, i smanjujem font size radi ljepseg izgleda*/
     border-top: 1px solid lightgray;
 }
 
-.bsc_1 div, .bsc_2 div, .bsc_3 div, .rs_1 div, .rs_2 div{
+.bsc_1 div, .bsc_2 div, .bsc_3 div, .rs_1 div, .rs_2 div, .msc_1 div, .msc_2 div{
     padding: 30px;
-    border: 1px solid black;
+    border: 1px solid lightgrey;
     border-radius: 4px;
 }
 
-.bsc_1 p, .bsc_2 p, .bsc_3 p, .rs_1 p, .rs_2 p{
+.bsc_1 p, .bsc_2 p, .bsc_3 p, .rs_1 p, .rs_2 p, .msc_1 p, .msc_2 p{
     font-size: 15px;
     text-align: center;
 }
@@ -105,6 +105,7 @@ postavljamo position na relativ, i smanjujem font size radi ljepseg izgleda*/
     margin-right: auto;
     display: block;
 }
+
 
 .izborni_predmet,
 .izborni_predmet img{
@@ -122,3 +123,6 @@ postavljamo position na relativ, i smanjujem font size radi ljepseg izgleda*/
     display: block;
 }
 
+footer div{
+    padding: 50px 0px;
+}
