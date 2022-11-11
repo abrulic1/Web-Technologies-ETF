@@ -52,3 +52,7 @@
   .prisustvo-evidencija{
     text-align: center;
   }
+
+  .glavna-tabela .merged_cells{
+    border: none;
+  }
