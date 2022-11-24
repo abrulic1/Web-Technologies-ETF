@@ -39,12 +39,12 @@
   border: 1px solid #0f0f0a;
 }
 
- .prisutan{
+ .odsutan{
     background-color: rgb(183, 72, 72);
     padding: 30px 15px;
   }
  
-  .odsutan{
+  .prisutan{
     background-color: rgb(91, 179, 91);
     padding: 30px 15px;
   }
@@ -55,4 +55,9 @@
 
   .glavna-tabela .merged_cells{
     border: none;
+  }
+
+  .celijePrisustva{
+    padding: 20px 5px;
+    font-size: 15px;
   }
