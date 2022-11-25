@@ -8,6 +8,10 @@ const object = {
     {
         "ime": "Drugi Neko",
         "index": 12346
+    },
+    {
+        "ime": "Treci Nekic",
+        "index": 12347
     }
 ],
 "prisustva": [{
@@ -35,18 +39,6 @@ const object = {
         "index": 12346
     },
     {
-        "sedmica": 3,
-        "predavanja": 2,
-        "vjezbe": 2,
-        "index": 12345
-    },
-    {
-        "sedmica": 3,
-        "predavanja": 1,
-        "vjezbe": 2,
-        "index": 12346
-    },
-    {
         "sedmica": 4,
         "predavanja":2,
         "vjezbe": 2,
@@ -54,10 +46,46 @@ const object = {
     },
     {
         "sedmica": 4,
-        "predavanja": 0,
+        "predavanja": 1,
+        "vjezbe": 2,
+        "index": 12346
+    },
+    {
+        "sedmica": 3,
+        "predavanja": 2,
         "vjezbe": 1,
         "index": 12346
     },
+    {
+        "sedmica": 3,
+        "predavanja": 2,
+        "vjezbe": 2,
+        "index": 12345
+    },
+    {
+        "sedmica": 1,
+        "predavanja": 0,
+        "vjezbe": 0,
+        "index": 12347
+    }, 
+    {
+        "sedmica": 2,
+        "predavanja": 1,
+        "vjezbe": 1,
+        "index": 12347
+    },
+    {
+        "sedmica": 3,
+        "predavanja": 2,
+        "vjezbe": 2,
+        "index": 12347
+    },
+    {
+        "sedmica": 4,
+        "predavanja": 0,
+        "vjezbe": 0,
+        "index": 12347
+    }
 ],
 "predmet": "Razvoj mobilnih aplikacija",
 "brojPredavanjaSedmicno": 2,
@@ -68,7 +96,6 @@ const object = {
 const nazivPredmeta = document.getElementById("nazivPredmeta");
 nazivPredmeta.innerHTML= "<b>"+"Naziv predmeta: " + object.predmet + "<br>" + "Broj predavanja sedmicno: " + object.brojPredavanjaSedmicno + "<br>" + "Broj vjezbi sedmicno: " + object.brojVjezbiSedmicno + "</b>";
 const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, object);
-const prisustvo = TabelaPrisustvo(div,object);
 
 const buttonsContainer = document.getElementById("dugmici");
 dugmad(buttonsContainer,prethodnaSedmica, sljedecaSedmica);
