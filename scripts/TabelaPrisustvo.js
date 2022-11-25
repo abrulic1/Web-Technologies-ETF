@@ -1,3 +1,4 @@
+
 const TabelaPrisustvo = function (divRef, podaci, trenutnaSedmica=podaci.prisustva[podaci.prisustva.length - 1].sedmica) {
     divRef.textContent = "";
     let ispravni = provjeriValidnostPodataka(podaci);
@@ -215,10 +216,10 @@ function dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica) {
     buttonsContainer.appendChild(buttonLeft);
     buttonLeft.classList = "dugme";
     buttonLeft.addEventListener("click", prethodnaSedmica);
-    buttonLeft.innerHTML = '<img src="../img/ikonice/WT2.png" />';
+    buttonLeft.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
     let buttonRight = document.createElement("button");
     buttonsContainer.appendChild(buttonRight);
     buttonRight.classList = "dugme";
     buttonRight.addEventListener("click", sljedecaSedmica);
-    buttonRight.innerHTML = '<img src="../img/ikonice/WT2.png" />';
+    buttonRight.innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
 };
