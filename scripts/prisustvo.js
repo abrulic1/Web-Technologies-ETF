@@ -1,7 +1,7 @@
 //import { TabelaPrisustvo, dugmad } from "./TabelaPrisustvo.js";
 //<script src="../scripts/TabelaPrisustvo.js"></script>
 
-let div = document.getElementById("divSadrzaj");
+const div = document.getElementById("divSadrzaj");
 //instanciranje
 
 const object = {
@@ -69,14 +69,15 @@ const object = {
 };
 
 
-let nazivPredmeta = document.getElementById("nazivPredmeta");
+const nazivPredmeta = document.getElementById("nazivPredmeta");
 nazivPredmeta.innerHTML= "<b>"+"Naziv predmeta: " + object.predmet + "<br>" + "Broj predavanja sedmicno: " + object.brojPredavanjaSedmicno + "<br>" + "Broj vjezbi sedmicno: " + object.brojVjezbiSedmicno + "</b>";
 //ovdje sam dodala broj predavanja i vjezbi jer nemamo informacije o ciklusu, smjeru isl. kao na prosloj spirali sto smo proizvoljno dodavali
-let prisustvo = TabelaPrisustvo(div, object);
+const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, object);
+const prisustvo = TabelaPrisustvo(div,object);
 //pozivanje metoda
-let div2 = document.getElementById("dugmici");
+const div2 = document.getElementById("dugmici");
 
 
-dugmad(div2);
+dugmad(div2,prethodnaSedmica, sljedecaSedmica);
 //prisustvo.sljedecaSedmica();
 //prisustvo.prethodnaSedmica();

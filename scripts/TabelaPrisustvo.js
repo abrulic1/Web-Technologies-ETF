@@ -1,17 +1,17 @@
-let TabelaPrisustvo = function (divRef, podaci) {
+const TabelaPrisustvo = function (divRef, podaci) {
     divRef.textContent="";
     let ispravni = provjeriValidnostPodataka(podaci);
-    var trenutnaSedmica=0; 
+    let trenutnaSedmica=0; 
     if(!ispravni)
         divRef.textContent= "Podaci o prisustvu nisu validni!";
     else
     crtanjeTabele(divRef,podaci, trenutnaSedmica);
 
-    let sljedecaSedmica = function () {
+    const sljedecaSedmica = function () {
         trenutnaSedmica++;
        console.log(trenutnaSedmica);
     }
-    let prethodnaSedmica = function () {
+    const prethodnaSedmica = function () {
         trenutnaSedmica--;
         console.log(trenutnaSedmica);
     }
@@ -228,21 +228,16 @@ function vratiPostotakPrisustva(j,podaci){
 
 
 
-function dugmad(div){
+function dugmad(div, prethodnaSedmica,sljedecaSedmica){
     console.log("pozvana dugmad");
     let dugme = document.createElement("button");
     div.appendChild(dugme);
     dugme.classList="dugme";
-    dugme.addEventListener("click", function(event) { 
-        TabelaPrisustvo.prethodnaSedmica;
-        console.log('clicked1');
-      });
+    dugme.addEventListener("click", prethodnaSedmica);
     dugme.innerHTML = '<img src="../img/ikonice/WT2.png" />';
     let dugme2 = document.createElement("button");
     div.appendChild(dugme2);
     dugme2.classList="dugme";
-    dugme2.addEventListener("click", function(event) { 
-        TabelaPrisustvo.sljedecaSedmica;
-        console.log('clicked2');
-      });
+    dugme2.addEventListener("click", sljedecaSedmica);
+    dugme2.innerHTML = '<img src="../img/ikonice/WT2.png" />';
 };
