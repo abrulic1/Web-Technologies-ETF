@@ -38,11 +38,32 @@ function izracunajKolikoSedmicaJeUneseno(podaci) {
     return sedmica;
 };
 
+function provjeriDaLiSvakaSedmicaImaPrisustvo(podaci){
+    //prvo moram znati koja je maximalna unesena sedmica
+    let maxSedmica = 0;
+    for(let i=0; i<podaci.prisustva.length; i++){
+        if(podaci.prisustva[i].sedmica>maxSedmica)
+          maxSedmica=podaci.prisustva[i].sedmica;
+    }
+
+    let niz = new Array(maxSedmica).fill(0);
+    console.log(niz);
+    for(let i=0; i<podaci.prisustva.length; i++){
+         niz[podaci.prisustva[i].sedmica-1]=1;
+    }
+
+    for(let i=0; i<niz.length; i++)
+      if(niz[i]===0) 
+       return false;
+
+       return true;
+};
+
 function provjeriValidnostPodataka(podaci) {
     //ovo je potrebno jos doraditi...
     //dodati ako ima vise od 14 sedmica da je false jer semestar nema preko 14 sedmica...
     //
-    let ispravni = true;
+  //  let ispravni = true;
     for (let i = 0; i < podaci.prisustva.length; i++) {
 
         if (podaci.prisustva[i].predavanja > podaci.brojPredavanjaSedmicno || podaci.prisustva[i].vjezbe > podaci.brojVjezbiSedmicno)
@@ -72,7 +93,9 @@ function provjeriValidnostPodataka(podaci) {
         }
     }
 
-    return ispravni;
+    return provjeriDaLiSvakaSedmicaImaPrisustvo(podaci);
+
+    //return ispravni;
 };
 
 function sortirajPodatkePoSedmicama(podaci){
