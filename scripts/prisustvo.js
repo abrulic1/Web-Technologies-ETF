@@ -80,7 +80,7 @@ const object = {
     },
     {
         "sedmica": 4,
-        "predavanja": 0,
+        "predavanja": 1,
         "vjezbe": 0,
         "index": 12347
     },
@@ -97,21 +97,9 @@ const object = {
         "index": 12348
     }, 
     {
-        "sedmica": 2,
-        "predavanja": 1,
-        "vjezbe": 1,
-        "index": 12348
-    },
-    {
         "sedmica": 4,
-        "predavanja": 0,
+        "predavanja": 1,
         "vjezbe": 0,
-        "index": 12348
-    },
-    {
-        "sedmica": 3,
-        "predavanja": 2,
-        "vjezbe": 2,
         "index": 12348
     }
 ],
