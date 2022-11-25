@@ -135,31 +135,21 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
         row.insertCell().appendChild(document.createTextNode(podaci.studenti[i].index));
         row.cells[1].rowSpan = 2;
 
-        let nastaviCrtatiOd=0;
         for (let j = 0; j < podaci.prisustva.length; j++) {
-            if (podaci.prisustva[j].sedmica === trenutnaSedmica) {
+            if (podaci.prisustva[j].sedmica === trenutnaSedmica && podaci.prisustva[j].index === podaci.studenti[i].index) {
                 iscrtajZaglavljeTrenutneSedmice(divRef, podaci, trenutnaSedmica, row, table);
-                nastaviCrtatiOd=j;
-                break;
+          
+               
             }
-            if (podaci.prisustva[j].index === podaci.studenti[i].index) {
+           else if (podaci.prisustva[j].index === podaci.studenti[i].index) {
                 let cel = row.insertCell();
                 cel.appendChild(document.createTextNode(vratiPostotakPrisustva(j, podaci)));
                 cel.rowSpan = 2;
-            }
-        }
-
-        for(let j=nastaviCrtatiOd+1; j<podaci.prisustva.length; j++){
-            if (podaci.prisustva[j].index === podaci.studenti[i].index) {
-                let cel = row.insertCell();
-                cel.appendChild(document.createTextNode(vratiPostotakPrisustva(j, podaci)));
-                cel.rowSpan = 2;
-                nastaviCrtatiOd=j;
             }
         }
        
-        //ovdje moram prvo za one buduce sedmice da nacrtam jednu novu celiju ali ako je vec svih 14 sedmica nacrtano, onda necemo dodavati
-        if(nastaviCrtatiOd<14){
+      //  ovdje moram prvo za one buduce sedmice da nacrtam jednu novu celiju ali ako je vec svih 14 sedmica nacrtano, onda necemo dodavati
+        if(trenutnaSedmica<14){
             const celija = document.createElement("td");
             row.appendChild(celija);
             celija.rowSpan = 2;
@@ -197,7 +187,6 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
         }
  
     }
-    
 };
 
 function iscrtajZaglavljeTrenutneSedmice(divRef, podaci, trenutnaSedmica, row, table) {

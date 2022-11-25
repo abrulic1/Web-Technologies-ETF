@@ -12,6 +12,10 @@ const object = {
     {
         "ime": "Treci Nekic",
         "index": 12347
+    },
+    {
+        "ime": "Cetvrti Nekic",
+        "index": 12348
     }
 ],
 "prisustva": [{
@@ -75,16 +79,40 @@ const object = {
         "index": 12347
     },
     {
+        "sedmica": 4,
+        "predavanja": 0,
+        "vjezbe": 0,
+        "index": 12347
+    },
+    {
         "sedmica": 3,
         "predavanja": 2,
         "vjezbe": 2,
         "index": 12347
     },
     {
+        "sedmica": 1,
+        "predavanja": 0,
+        "vjezbe": 0,
+        "index": 12348
+    }, 
+    {
+        "sedmica": 2,
+        "predavanja": 1,
+        "vjezbe": 1,
+        "index": 12348
+    },
+    {
         "sedmica": 4,
         "predavanja": 0,
         "vjezbe": 0,
-        "index": 12347
+        "index": 12348
+    },
+    {
+        "sedmica": 3,
+        "predavanja": 2,
+        "vjezbe": 2,
+        "index": 12348
     }
 ],
 "predmet": "Razvoj mobilnih aplikacija",
