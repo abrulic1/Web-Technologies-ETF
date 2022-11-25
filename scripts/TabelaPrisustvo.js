@@ -1,19 +1,64 @@
-export const TabelaPrisustvo = function (divRef, podaci) {
+let TabelaPrisustvo = function (divRef, podaci) {
     divRef.textContent="";
-    let trenutnaSedmica=0; 
-
-    const sljedecaSedmica = function () {
-    }
-    const prethodnaSedmica = function () {
-    }
-
+    let ispravni = provjeriValidnostPodataka(podaci);
+    var trenutnaSedmica=0; 
+    if(!ispravni)
+        divRef.textContent= "Podaci o prisustvu nisu validni!";
+    else
     crtanjeTabele(divRef,podaci, trenutnaSedmica);
 
+    let sljedecaSedmica = function () {
+        trenutnaSedmica++;
+       console.log(trenutnaSedmica);
+    }
+    let prethodnaSedmica = function () {
+        trenutnaSedmica--;
+        console.log(trenutnaSedmica);
+    }
     return {
     sljedecaSedmica,
     prethodnaSedmica
     }
 };
+
+function provjeriValidnostPodataka(podaci){
+    let ispravni = true;
+    for(let i=0; i<podaci.prisustva.length; i++){
+
+        if(podaci.prisustva[i].predavanja>podaci.brojPredavanjaSedmicno || podaci.prisustva[i].vjezbe>podaci.brojVjezbiSedmicno)
+          return false;
+
+        else if (podaci.prisustva[i].predavanja<0 || podaci.prisustva[i].vjezbe<0) 
+          return false;
+     
+          if(i!=podaci.prisustva.length-1)
+          for(let j=i+1; j<podaci.prisustva.length; j++){
+            if(podaci.prisustva[i].index===podaci.prisustva[j].index && podaci.prisustva[i].sedmica===podaci.prisustva[j].sedmica)
+             return false;
+          }
+
+          let imaUListi=false;
+          for(let j=0; j<podaci.studenti.length; j++){
+            if(podaci.prisustva[i].index===podaci.studenti[j].index) 
+            imaUListi=true;
+          }
+          if(!imaUListi) return false;
+
+          
+
+    }
+
+    for(let i=0; i<podaci.studenti.length-1; i++){
+        for(let j=i+1; j<podaci.studenti.length; j++){
+            if(podaci.studenti[i].index===podaci.studenti[j].index)
+            return false;
+        }
+    }
+
+
+   
+    return ispravni;
+}
 
 
 
@@ -183,3 +228,21 @@ function vratiPostotakPrisustva(j,podaci){
 
 
 
+function dugmad(div){
+    console.log("pozvana dugmad");
+    let dugme = document.createElement("button");
+    div.appendChild(dugme);
+    dugme.classList="dugme";
+    dugme.addEventListener("click", function(event) { 
+        TabelaPrisustvo.prethodnaSedmica;
+        console.log('clicked1');
+      });
+    dugme.innerHTML = '<img src="../img/ikonice/WT2.png" />';
+    let dugme2 = document.createElement("button");
+    div.appendChild(dugme2);
+    dugme2.classList="dugme";
+    dugme2.addEventListener("click", function(event) { 
+        TabelaPrisustvo.sljedecaSedmica;
+        console.log('clicked2');
+      });
+};

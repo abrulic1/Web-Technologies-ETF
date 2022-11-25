@@ -1,4 +1,5 @@
-import { TabelaPrisustvo } from "./TabelaPrisustvo.js";
+//import { TabelaPrisustvo, dugmad } from "./TabelaPrisustvo.js";
+//<script src="../scripts/TabelaPrisustvo.js"></script>
 
 let div = document.getElementById("divSadrzaj");
 //instanciranje
@@ -73,5 +74,9 @@ nazivPredmeta.innerHTML= "<b>"+"Naziv predmeta: " + object.predmet + "<br>" + "B
 //ovdje sam dodala broj predavanja i vjezbi jer nemamo informacije o ciklusu, smjeru isl. kao na prosloj spirali sto smo proizvoljno dodavali
 let prisustvo = TabelaPrisustvo(div, object);
 //pozivanje metoda
-prisustvo.sljedecaSedmica();
-prisustvo.prethodnaSedmica();
+let div2 = document.getElementById("dugmici");
+
+
+dugmad(div2);
+//prisustvo.sljedecaSedmica();
+//prisustvo.prethodnaSedmica();
