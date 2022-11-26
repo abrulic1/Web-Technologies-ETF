@@ -1,3 +1,4 @@
+var iscrtajDugmad = true;
 
 const TabelaPrisustvo = function (divRef, podaci, trenutnaSedmica = podaci.prisustva[podaci.prisustva.length - 1].sedmica) {
     divRef.textContent = "";
@@ -5,8 +6,13 @@ const TabelaPrisustvo = function (divRef, podaci, trenutnaSedmica = podaci.prisu
     const ukupnoUnesenihSedmica = izracunajKolikoSedmicaJeUneseno(podaci);
     sortirajPodatkePoSedmicama(podaci);
 
-    if (!ispravni)
-        divRef.textContent = "Podaci o prisustvu nisu validni!";
+    if (!ispravni){
+        let tekstNevalidno = document.createElement("p");
+        tekstNevalidno.innerHTML="Podaci o prisustvu nisu validni!";
+        tekstNevalidno.classList="nevalidnoError";
+        divRef.appendChild(tekstNevalidno);
+        iscrtajDugmad=false;
+    }
     else
         crtanjeTabele(divRef, podaci, trenutnaSedmica);
 
@@ -196,19 +202,6 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
 
         }
 
-        // for (let j = 0; j < podaci.prisustva.length; j++) {
-
-
-        //     if (podaci.prisustva[j].sedmica === trenutnaSedmica && podaci.prisustva[j].index === podaci.studenti[i].index) {
-        //         iscrtajZaglavljeTrenutneSedmice(divRef, podaci, trenutnaSedmica, row, table); 
-        //     }
-        //    else if (podaci.prisustva[j].index === podaci.studenti[i].index) {
-        //         let cel = row.insertCell();
-        //         cel.appendChild(document.createTextNode(vratiPostotakPrisustva(j, podaci)));
-        //         cel.rowSpan = 2;
-        //     }
-        // }
-
         //  ovdje moram prvo za one buduce sedmice da nacrtam jednu novu celiju ali ako je vec svih 14 sedmica nacrtano, onda necemo dodavati
         if (trenutnaSedmica < 14) {
             const celija = document.createElement("td");
@@ -228,24 +221,6 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
             }
         }
 
-        // for (let j = 0; j < niz.length; j++) {
-        //     if (niz[j] === 0) {
-        //         prisustvovaoPredavanjima = -1;
-        //         prisustvovaoVjezbama = -1;
-        //     }
-        //     else {
-        //         for (let a = 0; a < podaci.prisustva.length; a++) {
-        //             if (podaci.prisustva[a].index === podaci.studenti[i].index && podaci.prisustva[a].sedmica === trenutnaSedmica) {
-        //                 prisustvovaoPredavanjima = podaci.prisustva[a].predavanja;
-        //                 prisustvovaoVjezbama = podaci.prisustva[a].vjezbe;
-        //                 break;
-        //             }
-        //         }
-        //     }
-        // }
-
-        //ovdje njihove celije samo na prazne treba postavit.
-
         let brojac = 0;
         for (let a = 0; a < podaci.brojPredavanjaSedmicno; a++) {
             const celija = document.createElement("td");
@@ -255,8 +230,7 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
             if (brojac > prisustvovaoPredavanjima)
                 celija.classList = "odsutan";
             if(prisustvovaoPredavanjima===-1){
-            celija.classList.remove("odsutan");
-            celija.style="height:35px";
+            celija.classList = "praznaCelija";
             }
                 
         }
@@ -269,8 +243,7 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
             if (brojac > prisustvovaoVjezbama)
                 celija.classList = "odsutan";
                 if(prisustvovaoPredavanjima===-1){
-                    celija.classList.remove("odsutan");
-                    celija.style="height:35px";
+                    celija.classList="praznaCelija";
                     }
         }
 
@@ -303,6 +276,7 @@ function vratiPostotakPrisustva(sedmica, indexStudenta, podaci) {
 };
 
 function dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica) {
+    if(iscrtajDugmad){
     let buttonLeft = document.createElement("button");
     buttonsContainer.appendChild(buttonLeft);
     buttonLeft.classList = "dugme";
@@ -313,4 +287,5 @@ function dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica) {
     buttonRight.classList = "dugme";
     buttonRight.addEventListener("click", sljedecaSedmica);
     buttonRight.innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
+    }
 };

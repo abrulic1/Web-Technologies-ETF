@@ -16,6 +16,10 @@ const object = {
     {
         "ime": "Cetvrti Nekic",
         "index": 12348
+    },
+    {
+        "ime": "Peti Nekic",
+        "index": 12349
     }
 ],
 "prisustva": [{
@@ -101,6 +105,12 @@ const object = {
         "predavanja": 1,
         "vjezbe": 0,
         "index": 12348
+    }, 
+    {
+        "sedmica": 5,
+        "predavanja": 1,
+        "vjezbe": 1,
+        "index": 12349
     }
 ],
 "predmet": "Razvoj mobilnih aplikacija",
@@ -110,10 +120,12 @@ const object = {
 
 
 const nazivPredmeta = document.getElementById("nazivPredmeta");
-nazivPredmeta.innerHTML= "<b>"+"Naziv predmeta: " + object.predmet + "<br>" + "Broj predavanja sedmicno: " + object.brojPredavanjaSedmicno + "<br>" + "Broj vjezbi sedmicno: " + object.brojVjezbiSedmicno + "</b>";
+nazivPredmeta.innerHTML= "<b>"+"Naziv predmeta: " + "</b>"+ object.predmet + "<br>" + "<b>"+ "Broj predavanja sedmicno: " + "</b>" + object.brojPredavanjaSedmicno + "<br>" + "<b>"+ "Broj vjezbi sedmicno: " + "</b>" + object.brojVjezbiSedmicno + "</b>";
 const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, object);
+nazivPredmeta.classList="osnovneInformacije";
 
 const buttonsContainer = document.getElementById("dugmici");
+
 dugmad(buttonsContainer,prethodnaSedmica, sljedecaSedmica);
 //prisustvo.sljedecaSedmica();
 //prisustvo.prethodnaSedmica();

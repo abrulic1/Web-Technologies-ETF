@@ -1,3 +1,5 @@
+
+  
   table{
   border-spacing: 0px;
   width: 85%;
@@ -5,6 +7,11 @@
   border-collapse: collapse;
   margin-left:auto;
   margin-right: auto;
+}
+
+
+table th{
+  min-width: 80px;
 }
 
 .glavna-tabela .iducesedmice{
@@ -77,4 +84,20 @@
   .dugme{
     margin:25px;
     padding: 15px 20px;
+  }
+
+
+  .nevalidnoError{
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+  }
+
+  .osnovneInformacije{
+    font-size: 17px;
+    margin-left: 10px;
+  }
+
+  .praznaCelija{
+    padding: 30px 15px;
   }
