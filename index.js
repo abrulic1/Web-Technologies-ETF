@@ -15,7 +15,7 @@ app.get('/', (req, res)=>{
 
 //prijava page
 app.get('/prijava(.html)?', (req, res)=>{
-    res.status(200).sendFile(path.join(__dirname, 'public', 'prijava.html'));
+    res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
 })
 
 
