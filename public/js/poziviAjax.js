@@ -25,8 +25,6 @@ const PoziviAjax = (()=>{
         "password": password
       }
       
-      
-      console.log(typeof JSON.stringify(podaci, null, 2))
       ajax.send(JSON.stringify(podaci, null, 2));
     
       ajax.onreadystatechange = function() {
