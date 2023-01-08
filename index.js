@@ -13,7 +13,7 @@ app.get('/', (req, res)=>{
     res.status(200).send("Spirala 3");
 })
 
-//prijava apge
+//prijava page
 app.get('/prijava(.html)?', (req, res)=>{
     res.status(200).sendFile(path.join(__dirname, 'public', 'prijava.html'));
 })
