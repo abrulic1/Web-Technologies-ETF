@@ -32,12 +32,24 @@ const PoziviAjax = (()=>{
             fnCallback(ajax.status, null);
          }
        } 
-
     }
 
 
     
     function impl_postLogout(fnCallback){
+         var ajax = new XMLHttpRequest();
+         ajax.open("POST", "/logout", true);
+         ajax.setRequestHeader("Content-Type", "application/json");
+         //ovo mi vrv ni ne treba
+         ajax.send();
+         ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4 && ajax.status == 200){
+               fnCallback(null, ajax.responseText);
+            }
+            if (ajax.readyState == 4 && ajax.status == 404){
+               fnCallback(ajax.status, null);
+            }
+          } 
     }
     //prisustvo ima oblik {sedmica:N,predavanja:P,vjezbe:V}
     function impl_postPrisustvo(naziv,index,prisustvo,fnCallback){

@@ -24,14 +24,18 @@ app.use(session({
 //     res.status(200).send("Spirala 3");
 // })
 
-//prijava page - dodala sam da bude i kao index tj pocetna jer nije specificirano u postavci, a ljepse je
-app.get('/|/prijava(.html)?', (req, res)=>{
+//prijava page - - - 
+app.get('/prijava(.html)?', (req, res)=>{
     res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
 })
 
+app.get("/predmeti(.html)?", (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'predmeti.html'));
 
+})
 //post ruta za login gdje provjeravamo ispravnost unijetih podataka
-app.post('/login', (req, res)=>{
+app.post('/login(.html)?', (req, res)=>{
+    
     const data = fs.readFileSync(path.join(__dirname, 'data', 'nastavnici.json'));
     const users = JSON.parse(data);
 
@@ -39,7 +43,7 @@ app.post('/login', (req, res)=>{
     if(user){
         // console.log(user["nastavnik"].username)
         // console.log(user["nastavnik"].password_hash)
-    bcrypt.compare(req.body.password, user["nastavnik"].password_hash, function(err, result) {
+     bcrypt.compare(req.body.password, user["nastavnik"].password_hash, function(err, result) {
         if (err) {
           console.error(err);
         } else if (result) {
@@ -59,5 +63,9 @@ app.post('/login', (req, res)=>{
       res.status(404).send('Nema takvog korisnika');
 })
 
+app.post("/logout(.html)?", (req, res) => {
+    req.session.user=null;
+    res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
+})
 
 app.listen(3000);
