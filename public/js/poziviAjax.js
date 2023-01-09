@@ -26,7 +26,7 @@ const PoziviAjax = (()=>{
 	     if (ajax.readyState == 4 && ajax.status == 200){
             fnCallback(null, ajax.responseText);
              //ovdje bi se sada trebala postaviti stranica il nesto tako umjesto ovog ajax.responseText
-            document.body.innerHTML = ajax.responseText;
+             //document.body.innerHTML = ajax.responseText;
          }
 	     if (ajax.readyState == 4 && ajax.status == 404){
             fnCallback(ajax.status, null);

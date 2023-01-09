@@ -20,12 +20,12 @@ app.use(session({
  
 
 //index page - ovo nije trebalo al neka stoji jer je meni ljepse
-app.get('/', (req, res)=>{
-    res.status(200).send("Spirala 3");
-})
+// app.get('/', (req, res)=>{
+//     res.status(200).send("Spirala 3");
+// })
 
-//prijava page
-app.get('/prijava(.html)?', (req, res)=>{
+//prijava page - dodala sam da bude i kao index tj pocetna jer nije specificirano u postavci, a ljepse je
+app.get('/|/prijava(.html)?', (req, res)=>{
     res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
 })
 
