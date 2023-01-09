@@ -43,14 +43,20 @@ app.post('/login', (req, res)=>{
         if (err) {
           console.error(err);
         } else if (result) {
-         req.session.user=user["nastavnik"];
-         res.redirect('/');
+            req.session.user=user["nastavnik"];
+            const poruka ={
+             "poruka":"Uspješna prijava"
+            }
+            res.status(200).send(JSON.stringify(poruka));
         } else {
-          console.log('The passwords do not match');
-        }
-      });
-    }else
-    console.log('Nema usera');
+            const poruka ={
+             "poruka":"Neuspješna prijava"
+            }
+            res.status(404).send(JSON.stringify(poruka));
+          }
+         });
+       }else
+      res.status(404).send('Nema takvog korisnika');
 })
 
 

@@ -9,13 +9,14 @@ function posaljiPodatke(){
   }
 
   if(obj.password==='' || obj.username==='')
-    alert('Niste unijeli sve podatke');
+    alert('Niste unijeli sve podatke!');
 
   else
     PoziviAjax.postLogin(obj.username, obj.password, (err, data)=>{
-       if(err)
-         console.error(err);
+       if(err!=null){
+        alert('Neispravni podaci!');
+       }
        else
-         console.log('Nema greske');  
+       console.log('Bez greske');
     });
 }

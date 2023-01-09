@@ -1,5 +1,5 @@
 body{
-    background-color: darkgray;
+    background-color: rgb(53, 53, 53);
 }
 
 #login{
@@ -8,7 +8,7 @@ body{
     padding: 10px;
     border-radius: 5px;
     margin-top: 8%;
-    width: 30%;
+    width: 22%;
 }
 
 h2{
@@ -42,3 +42,10 @@ input[type="button"]{
     font-weight:bold;
     padding: 7px;
 }
+input[type="button"]:hover{
+    background-color: rgb(81, 128, 130);
+} 
+
+input[type="button"]:active{
+    background-color: rgb(72, 107, 108);
+} 
