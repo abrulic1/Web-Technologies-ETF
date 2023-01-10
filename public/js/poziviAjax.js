@@ -4,7 +4,19 @@ const PoziviAjax = (()=>{
     }
     // vraća listu predmeta za loginovanog nastavnika ili grešku da nastavnik nije loginovan
     function impl_getPredmeti(fnCallback){
-
+    
+      console.log('Pozvana je getPredmeti iz ajaxa');
+      var ajax = new XMLHttpRequest();
+      ajax.onreadystatechange = function() {
+	     if (ajax.readyState == 4 && ajax.status == 200){
+            fnCallback(null, ajax.responseText);
+         }
+	     if (ajax.readyState == 4 && ajax.status == 404){
+            fnCallback(ajax.status, null);
+         }
+       } 
+      ajax.open("GET", "/predmeti", true);
+       ajax.send();
     }
 
     
@@ -23,14 +35,12 @@ const PoziviAjax = (()=>{
       ajax.send(JSON.stringify(podaci, null, 2));
     
       ajax.onreadystatechange = function() {
-	     if (ajax.readyState == 4 && ajax.status == 200){
+	     if (ajax.readyState == 4 && ajax.status == 200)
             fnCallback(null, ajax.responseText);
-             //ovdje bi se sada trebala postaviti stranica il nesto tako umjesto ovog ajax.responseText
-             //document.body.innerHTML = ajax.responseText;
-         }
-	     if (ajax.readyState == 4 && ajax.status == 404){
+         
+	     if (ajax.readyState == 4 && ajax.status == 404)
             fnCallback(ajax.status, null);
-         }
+         
        } 
     }
 

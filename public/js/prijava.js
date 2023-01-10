@@ -1,6 +1,7 @@
-document.getElementById('submitBttn').addEventListener('click', posaljiPodatke);
+document.getElementById('submitBttn').addEventListener('click',
 
 function posaljiPodatke(){
+  // e.preventDefault()
  var forma = document.getElementById('loginForm');
  const inputs = forma.getElementsByTagName('input');
   const obj = {
@@ -17,9 +18,8 @@ function posaljiPodatke(){
         alert('Neispravni podaci!');
        }
        else{
-       //console.log('Bez greske');
-       //ovdje nisam sigurna da li se treba otvoriti nova stranica ili da se nekako zamijeni bez refreshanja
        window.location.href="http://localhost:3000/predmeti.html";
        }
     });
 }
+);
