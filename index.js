@@ -19,14 +19,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true
  }));
- 
 
-//index page - ovo nije trebalo al neka stoji jer je meni ljepse
-// app.get('/', (req, res)=>{
-//     res.status(200).send("Spirala 3");
-// })
+//index page igdje?
 
-//prijava page - - - 
 app.get('/prijava(.html)?', (req, res)=>{
     res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
 })
@@ -38,8 +33,6 @@ app.post('/login(.html)?', (req, res)=>{
 
     const user = users.find(objekat => objekat.nastavnik.username===req.body.username);
     if(user){
-        // console.log(user["nastavnik"].username)
-        // console.log(user["nastavnik"].password_hash)
     bcrypt.compare(req.body.password, user["nastavnik"].password_hash, function(err, result) {
         if (err) {
           console.error(err);
@@ -74,5 +67,22 @@ app.get('/predmeti(.html)?', (req, res)=>{
         else
         res.status(200).send(JSON.stringify({greska: 'Korisnik nije loginovan'}));
     })
+
+app.get('/predmet/:naziv', (req, res)=>{
+    // console.log(req.params.naziv);
+    naziv = req.params.naziv;
+    let prisustvoPoPredmetima = fs.readFileSync(path.join(__dirname,'data','prisustva.json'));
+    prisustvoPoPredmetima = JSON.parse(prisustvoPoPredmetima);
+    //console.log('tip prisustvaPoPredmetima je: ', typeof prisustvoPoPredmetima, prisustvoPoPredmetima.length)
+    //trazim predmet iz prisustvaPoPredmetima koji je jednak poslanom nazivu predmeta, i iz njega uzimam prisustva 
+    // console.log('prisustvooogrkgmkfgnklesgfv: ', prisustvoPoPredmetima[0].predmet);
+    let prisustva =  prisustvoPoPredmetima.find(p=>p.predmet===naziv);
+    // console.log('prisustva su: ', prisustva, typeof prisustva)
+    if(prisustva){
+    res.status(200).send(prisustva)
+    }
+    else 
+    res.status(404).send('neispravno');
+})    
 
 app.listen(3000);

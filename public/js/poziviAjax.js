@@ -1,11 +1,23 @@
 const PoziviAjax = (()=>{
     // ako postoji greška poruka se prosljeđuje u error parametar callback-a, a data je tada null
     function impl_getPredmet(naziv,fnCallback){
+      var ajax = new XMLHttpRequest();
+      ajax.onreadystatechange = function() {
+	     if (ajax.readyState == 4 && ajax.status == 200){
+           // document.body.innerHTML='dfdfdfdf';
+            fnCallback(null, ajax.response);
+         }
+	     if (ajax.readyState == 4 && ajax.status == 404){
+            fnCallback(ajax.status, null);
+         }
+       } 
+      ajax.open('GET', '/predmet/'+naziv, false);
+       ajax.send(JSON.stringify(naziv));
     }
     // vraća listu predmeta za loginovanog nastavnika ili grešku da nastavnik nije loginovan
     function impl_getPredmeti(fnCallback){
     
-      console.log('Pozvana je getPredmeti iz ajaxa');
+      // console.log('Pozvana je getPredmeti iz ajaxa');
       var ajax = new XMLHttpRequest();
       ajax.onreadystatechange = function() {
 	     if (ajax.readyState == 4 && ajax.status == 200){
@@ -15,7 +27,7 @@ const PoziviAjax = (()=>{
             fnCallback(ajax.status, null);
          }
        } 
-      ajax.open("GET", "/predmeti", true);
+      ajax.open("GET", "/predmeti", false);
        ajax.send();
     }
 
