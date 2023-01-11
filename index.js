@@ -50,7 +50,7 @@ app.post('/login(.html)?', (req, res)=>{
           }
          });
        }else
-      res.status(404).send('Nema takvog korisnika');
+      res.status(404).send('Nema takvog korisnika');   
 })
 
 
