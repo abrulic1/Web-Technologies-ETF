@@ -30,8 +30,13 @@ let predmeti = "";
             if(err!=null)
              console.log('ne valja')
              else{ 
-             console.log(data)}
-             document.getElementById('tabelaPrisustva').innerHTML=data;
+                data = JSON.parse(data); 
+                let div = document.getElementById('tabelaPrisustva');
+                const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, data);
+                const buttonsContainer = document.getElementById("dugmici");
+                dugmad(buttonsContainer,prethodnaSedmica, sljedecaSedmica);
+                // console.log(JSON.parse(data).predmet);
+             }
         })
     }
     }

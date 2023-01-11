@@ -79,6 +79,7 @@ app.get('/predmet/:naziv', (req, res)=>{
     let prisustva =  prisustvoPoPredmetima.find(p=>p.predmet===naziv);
     // console.log('prisustva su: ', prisustva, typeof prisustva)
     if(prisustva){
+        console.log(prisustva);
     res.status(200).send(prisustva)
     }
     else 

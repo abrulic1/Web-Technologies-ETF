@@ -277,6 +277,7 @@ function vratiPostotakPrisustva(sedmica, indexStudenta, podaci) {
 
 function dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica) {
     if(iscrtajDugmad){
+    iscrtajDugmad=false;
     let buttonLeft = document.createElement("button");
     buttonsContainer.appendChild(buttonLeft);
     buttonLeft.classList = "dugme";
