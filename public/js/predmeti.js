@@ -25,6 +25,9 @@ let predmeti = "";
     let items = document.querySelectorAll('#lista li');
     for(let i=1; i<items.length; i++)
     items[i].onclick = function(){
+        var current = document.getElementsByClassName('active');
+        if(current.length!=0)current[0].className = current[0].className.replace(' active', '');
+        items[i].className+=" active";
         // console.log(items[i].innerHTML)
         PoziviAjax.getPredmet(items[i].innerHTML, (err,data)=>{
             if(err!=null)

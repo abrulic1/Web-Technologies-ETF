@@ -37,7 +37,7 @@ body{
 }
 
 
-#nav ul li:hover{
+#nav ul li:hover, .active{
     background: rgb(0, 0, 0);
     border-radius: 5px;
 }
