@@ -82,7 +82,7 @@ function odjaviSe(){
     }
 
 function promijeniPrisustvo(naziv){
-    for (let i = 0; i < redovi.length; i++) {
+    for (let i = 0; i < redovi.length; i+=2) {
         let row = redovi[i];
         row.addEventListener('click', function(event){
             if (event.target.tagName === "TD") {
@@ -105,22 +105,115 @@ function promijeniPrisustvo(naziv){
 
 
             //redovi gdje se nalaze celije koje su nam od interesa su u parnim redovima, a kolone su na segmentu [0, brpred+brvjezbi]
-           let celija = {"sedmica": trenutniTH, "red": clickedRow, "kolona": clickedColumn};
+
+            //ovdje moram da prebrojim predavanja i vjezbe na koje je student prisustvovao
+            let predavanja=0;
+            let vjezbe=0;
+            
+            let predavanjaPrisustvo=0;
+            let vjezbePrisustvo=0;
+ 
+            for(let k=0; k<row.cells.length; k++){
+               if(row.cells[k].classList.contains('predavanja')){
+                predavanja++;
+                if(row.cells[k].classList.contains('prisutan')) predavanjaPrisustvo++;
+               }
+               else if(row.cells[k].classList.contains('vjezbe')) 
+               {vjezbe++;
+                if(row.cells[k].classList.contains('prisutan')) vjezbePrisustvo++;
+               }
+            }
+            //ovo je okej
+            // console.log('PREDAVANJA....: ', predavanja);
+            // console.log('VJEZBE.....: ', vjezbe);
+            let vjezbeSuAzurirane=0;
+            let predavanjaSuAzurirana=0;
+            //I OVO JE sada okej
+           if(clickedColumn>=predavanja) vjezbeSuAzurirane=1;
+           else predavanjaSuAzurirana=1;
+            // console.log('AZURIRANE VJEZBE...:', vjezbeSuAzurirane);
+            // console.log('AZURIRANJA PREDAVANJA...: ', predavanjaSuAzurirana)
+        
+           for(let k=0; k<row.cells.length; k++){
+            
+            if(clickedColumn==k){
+                console.log('lista styles klasa:.... ',  row.cells[k].classList)
+                //i ovo je ok
+                // console.log('CLICKED COLUMN ..... : ', clickedColumn);
+                // console.log('K JE ....:', k);
+                //i ovo je ok
+                // console.log('PREDAVANJE JE: ', row.cells[k].classList.contains('predavanja'));
+                // console.log('VJEZBA JE: ', row.cells[k].classList.contains('vjezbe'));
+
+                //da li se treba ovdje zamijenit klasa....
+                if(row.cells[k].classList.contains('predavanja') && row.cells[k].classList.contains('prisutan')){
+                    predavanjaPrisustvo--;
+                    console.log('predavanjaPrisustvo su smanjena');
+                    console.log('iznose: ', predavanjaPrisustvo)
+                }
+                else if(row.cells[k].classList.contains('predavanja') && (row.cells[k].classList.contains('odsutan') || row.cells[k].classList.contains('praznaCelija'))){
+                    predavanjaPrisustvo++;
+                    console.log('predavanaprisustvo su povecana')
+                    console.log('iznose: ', predavanjaPrisustvo)
+                }
+            //     if(predavanjaSuAzurirana && row.cells[k].classList.contains('predavanja')){
+            //         if(row.cells[k].classList.contains('prisutan')){
+            //             row.cells[k].classList.remove(row.cells[k].classList.item(1));
+            //             row.cells[k].classList.add('odsutan');
+            //             predavanjaPrisustvo--;
+            //             break;
+            //         }
+            //         else{
+            //             if(row.cells[k].classList.contains('odsutan'))  row.cells[k].classList.remove(row.cells[k].classList.item(1));
+            //             else  row.cells[k].classList.remove(row.cells[k].classList.item(1));
+            //             row.cells[k].classList.add('prisutan');
+            //             predavanjaPrisustvo++;
+            //             break;
+            //         } 
+            //     }else if(vjezbeSuAzurirane && row.cells[k].classList.contains('vjezbe')){
+            //     if(row.cells[k].classList.contains('prisutan')){
+            //         row.cells[k].classList.remove(row.cells[k].classList.item(1));
+            //         row.cells[k].classList.add('odsutan');
+            //         vjezbePrisustvo--;
+            //         break;
+            //     }
+            //     else{
+            //         if(row.cells[k].classList.contains('odsutan'))  row.cells[k].classList.remove(row.cells[k].classList.item(1));
+            //         else  row.cells[k].classList.remove(row.cells[k].classList.item(1));
+            //         row.cells[k].classList.add('prisutan');
+            //         vjezbePrisustvo++;
+            //         break;
+            //     } 
+            // }
+        }
+           }
+
+           
+           
+           let celija = {"sedmica": trenutniTH-1, "predavanja": predavanjaPrisustvo, "vjezbe": vjezbePrisustvo};
            let index = redovi[clickedRow-1].cells[1].textContent;
-        //    console.log('index je ', index, typeof index);
-        //    console.log('naziv je ', naziv, typeof naziv);
-        //    console.log('prisustvo ', celija, typeof JSON.stringify(celija))
+      
            PoziviAjax.postPrisustvo( naziv,  index, celija, (err,data)=>{
             if(err!=null)
             console.log('ne valja');
             else 
-            console.log('valja');
+            {
+                // clickedCell.addEventListener('click', function(data){
+                //     data = JSON.parse(data); 
+                //     // console.log('PODACI iz PREDMETI.js.....: ',data);
+                //     console.log("duzina data je....", data.length);
+                //     for(let i=0; i<data.length; i++){
+                //     let div = document.getElementById('tabelaPrisustva');
+                //     const { prethodnaSedmica, sljedecaSedmica} = TabelaPrisustvo(div, data[i]);
+                //     const buttonsContainer = document.getElementById("dugmici");
+                //     dugmad(buttonsContainer,prethodnaSedmica, sljedecaSedmica);
+                //     }
+                // }) 
+            }
            })
             break;
         }
     }
   }})
-            
-           
  }
 };

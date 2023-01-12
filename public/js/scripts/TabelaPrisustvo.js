@@ -225,26 +225,25 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
         for (let a = 0; a < podaci.brojPredavanjaSedmicno; a++) {
             const celija = document.createElement("td");
             row2.appendChild(celija);
-            celija.classList = "prisutan";
+            celija.classList = "predavanja";
             brojac++;
             if (brojac > prisustvovaoPredavanjima)
-                celija.classList = "odsutan";
-            if(prisustvovaoPredavanjima===-1){
-            celija.classList = "praznaCelija";
-            }
-                
+                celija.classList += " odsutan";
+            else if(prisustvovaoPredavanjima===-1)
+            celija.classList += " praznaCelija";
+            else celija.classList += " prisutan";
         }
         brojac = 0;
         for (let a = 0; a < podaci.brojVjezbiSedmicno; a++) {
             const celija = document.createElement("td");
             row2.appendChild(celija);
-            celija.classList = "prisutan";
+            celija.classList = "vjezbe"
             brojac++;
             if (brojac > prisustvovaoVjezbama)
-                celija.classList = "odsutan";
-                if(prisustvovaoPredavanjima===-1){
-                    celija.classList="praznaCelija";
-                    }
+                celija.classList += " odsutan";
+               else if(prisustvovaoPredavanjima===-1)
+                    celija.classList+=" praznaCelija";
+                    else celija.classList += " prisutan"; 
         }
 
      }
@@ -253,13 +252,13 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
 function iscrtajZaglavljeTrenutneSedmice(divRef, podaci, trenutnaSedmica, row, table) {
     for (let i = 0; i < podaci.brojPredavanjaSedmicno; i++) {
         const celija = document.createElement("td");
-        celija.classList = "celijePrisustva";
+        celija.classList = "predavanje";
         row.appendChild(celija);
         celija.appendChild(document.createTextNode("P" + (i + 1).toString()));
     }
     for (let i = 0; i < podaci.brojVjezbiSedmicno; i++) {
         const celija = document.createElement("td");
-        celija.classList = "celijePrisustva";
+        celija.classList = "vjezbe";
         row.appendChild(celija);
         celija.appendChild(document.createTextNode("V" + (i + 1).toString()));
     }

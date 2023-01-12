@@ -86,19 +86,41 @@ app.get('/predmet/:naziv', (req, res)=>{
     res.status(404).send('neispravno');
 })    
 
-
+//ovo samo ne valja mrm izmijenit
 app.post('/prisustvo/predmet/:naziv/student/:index', (req, res)=>{
-    // console.log('iz post rute imamo');
-    // console.log('index ', req.params.index);
-    // console.log('predmet ', req.params.predmet);
-    // console.log('prisustvo', req.params.prisustvo);
-    // console.log('req.body je: ', req.body);
-    // console.log('\n');
-    // console.log('req.params je ', req.params);
-    console.log('index j e ', req.params.index);
-    console.log('predmet je ', req.params.naziv);
-    console.log(' a ovo dtrece je ', req.body.sedmica, typeof req.body.sedmica);
+    debugger
+    const index = req.params.index;
+    const naziv = req.params.naziv;
+    const prisustvo = req.body; 
+    let prisustvaPredmeta = fs.readFileSync(path.join(__dirname, 'data', 'prisustva.json'));
+    prisustvaPredmeta = JSON.parse(prisustvaPredmeta);
+    console.log("PODACI IZ INDEXA.JS.....: ", prisustvaPredmeta);
+    let indexPredmeta = 0;
+     let nasPredmet = prisustvaPredmeta.filter(p=>{ if(p.predmet===naziv) return p; indexPredmeta++;});
+     //ovo je ruzno al mora ovako sad za sad...ovo [0]
+     let indexStudenta=0;
+     let nasStudent = nasPredmet[0].prisustva.filter( o=>{if(o.index==index) return o; indexStudenta++});
+    //  console.log('student', nasStudent[1]);
+     for(let i=0; i<nasStudent.length; i++){
+        console.log('tip 1: ', nasStudent[i].sedmica, typeof nasStudent[i].sedmica);
+        console.log('tip 2: ', prisustvo.sedmica, typeof prisustvo.sedmica);
+        if(nasStudent[i].sedmica==prisustvo.sedmica){
+            console.log('prije promjene predavanja: ', nasStudent[i].predavanja);
+            nasStudent[i].predavanja=prisustvo.predavanja;
+            console.log('poslije promjene predavanja: ', nasStudent[i].predavanja);
+            nasStudent[i].vjezbe=prisustvo.vjezbe;
+            console.log(nasStudent);
+            break;
+        }
+     }
+     
+     prisustvaPredmeta[indexPredmeta].prisustva[indexStudenta]=nasStudent;
+    //  console.log('prisustva azurirana su sada: \n');
+    //  console.log(prisustvaPredmeta[indexPredmeta].prisustva[indexStudenta]);
+    //  console.log('................................');
+     res.status(200).send(prisustvaPredmeta);
     //ovdje je sada potrebno da izmijenim podatke u json fajlu, vratim ih, i ponovo kasnije icrtam tabelu
+    //
 })
 
 app.listen(3000);
