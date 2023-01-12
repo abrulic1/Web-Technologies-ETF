@@ -35,8 +35,7 @@ let predmeti = "";
              else{ 
                 data = JSON.parse(data); 
                 let div = document.getElementById('tabelaPrisustva');
-                const { prethodnaSedmica, sljedecaSedmica, trenutnaSedmica } = TabelaPrisustvo(div, data);
-                console.log('trenutna sedmica ', trenutnaSedmica);
+                const { prethodnaSedmica, sljedecaSedmica} = TabelaPrisustvo(div, data);
                 const buttonsContainer = document.getElementById("dugmici");
                 dugmad(buttonsContainer,prethodnaSedmica, sljedecaSedmica);
                 // console.log(JSON.parse(data).predmet);

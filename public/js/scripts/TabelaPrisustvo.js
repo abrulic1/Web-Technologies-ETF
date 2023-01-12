@@ -33,7 +33,7 @@ const TabelaPrisustvo = function (divRef, podaci, trenutnaSedmica = podaci.prisu
 
     return {
         sljedecaSedmica,
-        prethodnaSedmica, trenutnaSedmica
+        prethodnaSedmica
     }
 };
 
