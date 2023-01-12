@@ -33,7 +33,7 @@ const TabelaPrisustvo = function (divRef, podaci, trenutnaSedmica = podaci.prisu
 
     return {
         sljedecaSedmica,
-        prethodnaSedmica
+        prethodnaSedmica, trenutnaSedmica
     }
 };
 
@@ -277,7 +277,8 @@ function vratiPostotakPrisustva(sedmica, indexStudenta, podaci) {
 
 function dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica) {
     if(iscrtajDugmad){
-    iscrtajDugmad=false;
+      buttonsContainer.textContent='';
+    // iscrtajDugmad=false;
     let buttonLeft = document.createElement("button");
     buttonsContainer.appendChild(buttonLeft);
     buttonLeft.classList = "dugme";
