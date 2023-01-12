@@ -32,6 +32,8 @@ table th{
   vertical-align: text-top;
 }
 
+
+
 .glavna-tabela th{
   text-align: left;
   padding-left: 10px;
@@ -53,10 +55,26 @@ table th{
     background-color: rgb(183, 72, 72);
     padding: 30px 15px;
   }
+
+  .odsutan:hover{
+    background-color: rgb(115, 25, 25);
+  }
+
+  .odsutan:active{
+    background-color: rgb(94, 11, 11);
+  }
  
   .prisutan{
     background-color: rgb(91, 179, 91);
     padding: 30px 15px;
+  }
+
+  .prisutan:hover{
+    background-color: rgb(52, 103, 52);
+  }
+
+  .prisutan:active{
+    background-color: rgb(39, 76, 39);
   }
  
   .prisustvo-evidencija{

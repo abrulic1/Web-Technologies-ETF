@@ -79,11 +79,24 @@ app.get('/predmet/:naziv', (req, res)=>{
     let prisustva =  prisustvoPoPredmetima.find(p=>p.predmet===naziv);
     // console.log('prisustva su: ', prisustva, typeof prisustva)
     if(prisustva){
-        console.log(prisustva);
+        // console.log(prisustva);
     res.status(200).send(prisustva)
     }
     else 
     res.status(404).send('neispravno');
 })    
+
+
+app.post('/prisustvo/predmet/:naziv/student/:index', (req, res)=>{
+    // console.log('iz post rute imamo');
+    // console.log('index ', req.params.index);
+    // console.log('predmet ', req.params.predmet);
+    // console.log('prisustvo', req.params.prisustvo);
+    // console.log('req.body je: ', req.body);
+    // console.log('\n');
+    // console.log('req.params je ', req.params);
+    console.log('index j e ', req.params.index);
+    console.log('predmet je ', req.params.naziv);
+})
 
 app.listen(3000);

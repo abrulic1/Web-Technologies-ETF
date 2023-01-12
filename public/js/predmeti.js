@@ -41,9 +41,9 @@ let predmeti = "";
                 // console.log(JSON.parse(data).predmet);
                 redovi = document.getElementsByTagName('tr');
                 console.log('redovi su',redovi);
-                promijeniPrisustvo();
+                promijeniPrisustvo(items[i].innerHTML);
                 buttonsContainer.addEventListener("click", function(event){
-                    promijeniPrisustvo();
+                    promijeniPrisustvo(items[i].innerHTML);
                 }) 
              }
         })
@@ -81,7 +81,7 @@ function odjaviSe(){
         }
     }
 
-function promijeniPrisustvo(){
+function promijeniPrisustvo(naziv){
     for (let i = 0; i < redovi.length; i++) {
         let row = redovi[i];
         row.addEventListener('click', function(event){
@@ -103,8 +103,19 @@ function promijeniPrisustvo(){
             clickedRow = i;
             clickedColumn = j;
 
+
             //redovi gdje se nalaze celije koje su nam od interesa su u parnim redovima, a kolone su na segmentu [0, brpred+brvjezbi]
-         
+           let celija = {sedmica: trenutniTH, red: clickedRow, kolona: clickedColumn};
+           let index = redovi[clickedRow-1].cells[1].textContent;
+        //    console.log('index je ', index, typeof index);
+        //    console.log('naziv je ', naziv, typeof naziv);
+        //    console.log('prisustvo ', celija, typeof JSON.stringify(celija))
+           PoziviAjax.postPrisustvo( naziv,  index, celija, (err,data)=>{
+            if(err!=null)
+            console.log('ne valja');
+            else 
+            console.log('valja');
+           })
             break;
         }
     }
