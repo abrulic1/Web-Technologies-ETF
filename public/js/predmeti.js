@@ -105,7 +105,7 @@ function promijeniPrisustvo(naziv){
 
 
             //redovi gdje se nalaze celije koje su nam od interesa su u parnim redovima, a kolone su na segmentu [0, brpred+brvjezbi]
-           let celija = {sedmica: trenutniTH, red: clickedRow, kolona: clickedColumn};
+           let celija = {"sedmica": trenutniTH, "red": clickedRow, "kolona": clickedColumn};
            let index = redovi[clickedRow-1].cells[1].textContent;
         //    console.log('index je ', index, typeof index);
         //    console.log('naziv je ', naziv, typeof naziv);

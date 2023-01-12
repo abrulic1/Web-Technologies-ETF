@@ -97,6 +97,8 @@ app.post('/prisustvo/predmet/:naziv/student/:index', (req, res)=>{
     // console.log('req.params je ', req.params);
     console.log('index j e ', req.params.index);
     console.log('predmet je ', req.params.naziv);
+    console.log(' a ovo dtrece je ', req.body.sedmica, typeof req.body.sedmica);
+    //ovdje je sada potrebno da izmijenim podatke u json fajlu, vratim ih, i ponovo kasnije icrtam tabelu
 })
 
 app.listen(3000);
