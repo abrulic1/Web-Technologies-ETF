@@ -1,5 +1,6 @@
 var iscrtajDugmad = true;
 
+
 const TabelaPrisustvo = function (divRef, podaci, trenutnaSedmica = podaci.prisustva[podaci.prisustva.length - 1].sedmica) {
     divRef.textContent = "";
     let ispravni = provjeriValidnostPodataka(podaci);
