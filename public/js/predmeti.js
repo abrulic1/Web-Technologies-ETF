@@ -1,4 +1,5 @@
 let redovi = [];
+let tabela=null;
 document.getElementById('logout').addEventListener('click', odjaviSe);
 
 window.onload = function () {
@@ -24,6 +25,7 @@ window.onload = function () {
                     var current = document.getElementsByClassName('active');
                     if (current.length != 0) current[0].className = current[0].className.replace(' active', '');
                     items[i].className += " active";
+                    debugger
                     PoziviAjax.getPredmet(items[i].innerHTML, (err, data) => {
                         if (err != null)
                             console.log('Ne moze se dohvatiti predmet iz poziviAjax!')
@@ -31,14 +33,20 @@ window.onload = function () {
                             data = JSON.parse(data);
                             let div = document.getElementById('tabelaPrisustva');
                             const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, data);
+                            tabela = document.getElementById('glavna-tabela');
                             const buttonsContainer = document.getElementById("dugmici");
                             dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica);
                             redovi = document.getElementsByTagName('tr');
-                            //Za ovo nisam sigurna moze li se na ljepsi nacin uraditi .....
-                            promijeniPrisustvo(items[i].innerHTML);
-                            buttonsContainer.addEventListener("click", function(event){
-                                 promijeniPrisustvo(items[i].innerHTML);
+                            debugger
+                            tabela.addEventListener('click', function(event){
+                            console.log('poziva se table listener'); 
+                            promijeniPrisustvo(items[i].innerHTML, event)
                             })
+                            // tabela.onclick=function(){
+                            //    console.log('poziva se table listener'); 
+                            // promijeniPrisustvo(items[i].innerHTML)
+                            // }
+                        
                         }
                     })
                 }
@@ -60,13 +68,14 @@ function odjaviSe() {
 }
 
 
-function promijeniPrisustvo(naziv) {
+ function promijeniPrisustvo(naziv, event) {
     //uzimam svaki drugi iz razloga sto mi ne treba da prolazim kroz redove koji imaju ovu informaciju ime i prezime, index...onda ovo P1 P2 V1 V2....
     //Ovo moram rijesiti, previse for petlji, previse pristupa memoriji...ubacit streamove isl. 
     for (let i = 0; i < redovi.length; i += 2) {
         let row = redovi[i];
         for (let j = 0; j < row.cells.length; j++) { 
         row.cells[j].addEventListener('click', function (event) {
+            console.log("pozvan je listener");
             if (event.target.tagName === "TD") {
                 let clickedCell = event.target;
                 let clickedRow = row;
@@ -139,19 +148,21 @@ function promijeniPrisustvo(naziv) {
                                 console.log('valja i iscrtava se ponovo sve ispocetka');
                                     data = JSON.parse(data); 
                                     let div = document.getElementById('tabelaPrisustva');
-                                    div.textContent='';
-                                    console.log('podaci koji su dobijeni', data);
-                                    // const { prethodnaSedmica, sljedecaSedmica} = 
-                                    TabelaPrisustvo(div, data);
-                                    // const buttonsContainer = document.getElementById("dugmici");
-                                    // buttonsContainer.textContent='';
-                                    // dugmad(buttonsContainer,prethodnaSedmica, sljedecaSedmica);  
+                                    const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, data);
+                                    tabela = document.getElementById('glavna-tabela');
+                                    const buttonsContainer = document.getElementById("dugmici");
+                                    dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica);
+                                    redovi = document.getElementsByTagName('tr');
+                                    tabela.addEventListener('click', function(event){
+                                        console.log('poziva se table listener'); 
+                                        promijeniPrisustvo(items[i].innerHTML, event)
+                                        })
                             }
                         })
-                    // })
                 }
             }  //if event je kliknuta celija
         })
+        // if(kliknutaJe) break;
     }
 }
 }

@@ -100,12 +100,12 @@ app.post('/prisustvo/predmet/:naziv/student/:index', (req, res)=>{
      let nasStudent = nasPredmet[0].prisustva.filter( o=>{if(o.index==index) return o; indexStudenta++});
      for(let i=0; i<nasStudent.length; i++){
         if(nasStudent[i].sedmica==prisustvo.sedmica){
-            console.log('prije promjene predavanja: ', nasStudent[i].predavanja);
+            // console.log('prije promjene predavanja: ', nasStudent[i].predavanja);
             nasStudent[i].predavanja=prisustvo.predavanja;
-            console.log('poslije promjene predavanja: ', nasStudent[i].predavanja);
-            console.log('prije promjene vjezbe: ', nasStudent[i].vjezbe);
+            // console.log('poslije promjene predavanja: ', nasStudent[i].predavanja);
+            // console.log('prije promjene vjezbe: ', nasStudent[i].vjezbe);
             nasStudent[i].vjezbe=prisustvo.vjezbe;
-            console.log('poslije promjene vjezbe: ', nasStudent[i].vjezbe);
+            // console.log('poslije promjene vjezbe: ', nasStudent[i].vjezbe);
             // console.log(nasStudent);
             break;
         }

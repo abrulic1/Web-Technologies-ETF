@@ -126,7 +126,8 @@ function sortirajPodatkePoSedmicama(podaci) {
 function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
     //ISCRTAVANJE HEADERA GLAVNE TABELE
     let table = document.createElement("table");
-    table.classList.add("glavna-tabela");
+    // table.classList.add("glavna-tabela");
+    table.id='glavna-tabela';
     const header = document.createElement("tr");
     table.append(header);
     const nameAndSurname = document.createElement("th");
