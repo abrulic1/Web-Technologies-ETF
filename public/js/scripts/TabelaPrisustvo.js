@@ -1,10 +1,10 @@
 var iscrtajDugmad = true;
 // trenutnaSedmica = podaci.prisustva[podaci.prisustva.length - 1].sedmica
-var trenutnaSedmica = 0; 
-const TabelaPrisustvo = function (divRef, podaci) {
+// var trenutnaSedmica = 0; 
+const TabelaPrisustvo = function (divRef, podaci, trenutnaSedmica = podaci.prisustva[podaci.prisustva.length - 1].sedmica) {
     divRef.textContent = "";
-    let kopija = JSON.parse(JSON.stringify(podaci));
-    let trenutnaSedmica = kopija.prisustva[kopija.prisustva.length - 1].sedmica;
+    // let kopija = JSON.parse(JSON.stringify(podaci));
+    // let trenutnaSedmica = kopija.prisustva[kopija.prisustva.length - 1].sedmica;
     let ispravni = provjeriValidnostPodataka(podaci);
     const ukupnoUnesenihSedmica = izracunajKolikoSedmicaJeUneseno(podaci);
     sortirajPodatkePoSedmicama(podaci);

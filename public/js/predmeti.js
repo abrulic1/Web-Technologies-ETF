@@ -41,6 +41,9 @@ window.onload = function () {
                             dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica);
                             redovi = document.getElementsByTagName('tr');
                             nazivPredmeta=items[i].innerHTML;
+                            buttonsContainer.onclick = function(){
+                                promijeniPrisustvo(items[i].innerHTML)
+                            }
                              // tabela.addEventListener('click', function(event){
                             // console.log('poziva se table listener'); 
                             promijeniPrisustvo(items[i].innerHTML)
@@ -154,7 +157,7 @@ function odjaviSe() {
                                     data = JSON.parse(data); 
                                     console.log('IZ PREDMETI SE SALJU : ', data);
                                     let div = document.getElementById('tabelaPrisustva');
-                                    const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, data);
+                                    const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, data, trenutniTH-1);
                                     tabela = document.getElementById('glavna-tabela');
                                      buttonsContainer = document.getElementById("dugmici");
                                     dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica);
