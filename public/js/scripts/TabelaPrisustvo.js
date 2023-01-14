@@ -1,10 +1,10 @@
 var iscrtajDugmad = true;
 // trenutnaSedmica = podaci.prisustva[podaci.prisustva.length - 1].sedmica
-// var trenutnaSedmica = 0; 
-const TabelaPrisustvo = function (divRef, podaci, trenutnaSedmica = podaci.prisustva[podaci.prisustva.length - 1].sedmica) {
+window.trenutnaSedmica = 0;
+const TabelaPrisustvo = function (divRef, podaci) {
     divRef.textContent = "";
-    // let kopija = JSON.parse(JSON.stringify(podaci));
-    // let trenutnaSedmica = kopija.prisustva[kopija.prisustva.length - 1].sedmica;
+    let kopija = JSON.parse(JSON.stringify(podaci));
+    if(window.trenutnaSedmica===0)window.trenutnaSedmica = kopija.prisustva[kopija.prisustva.length - 1].sedmica;
     let ispravni = provjeriValidnostPodataka(podaci);
     const ukupnoUnesenihSedmica = izracunajKolikoSedmicaJeUneseno(podaci);
     sortirajPodatkePoSedmicama(podaci);
@@ -17,20 +17,20 @@ const TabelaPrisustvo = function (divRef, podaci, trenutnaSedmica = podaci.prisu
         iscrtajDugmad=false;
     }
     else
-        crtanjeTabele(divRef, podaci, trenutnaSedmica);
+        crtanjeTabele(divRef, podaci, window.trenutnaSedmica);
 
     const sljedecaSedmica = function () {
-        if (ukupnoUnesenihSedmica > trenutnaSedmica) {
-            trenutnaSedmica++;
+        if (ukupnoUnesenihSedmica > window.trenutnaSedmica) {
+            window.trenutnaSedmica++;
             divRef.textContent = "";
-            crtanjeTabele(divRef, podaci, trenutnaSedmica);
+            crtanjeTabele(divRef, podaci, window.trenutnaSedmica);
         }
     }
     const prethodnaSedmica = function () {
-        if (trenutnaSedmica > 1) {
-            trenutnaSedmica--;
+        if (window.trenutnaSedmica > 1) {
+            window.trenutnaSedmica--;
             divRef.textContent = "";
-            crtanjeTabele(divRef, podaci, trenutnaSedmica);
+            crtanjeTabele(divRef, podaci, window.trenutnaSedmica);
         }
     }
 
@@ -142,7 +142,7 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
 
     let i = 0;
     for (i = 0; i < podaci.prisustva[podaci.prisustva.length - 1].sedmica; i++) {
-        if (i == trenutnaSedmica - 1) {
+        if (i == window.trenutnaSedmica - 1) {
             const sedmica = document.createElement("th");
             sedmica.colSpan = podaci.brojPredavanjaSedmicno + podaci.brojVjezbiSedmicno;
             header.appendChild(sedmica);
@@ -193,8 +193,8 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
                 cel.rowSpan = 2;
                 continue;
             }
-            if (niz[j] === trenutnaSedmica) {
-                iscrtajZaglavljeTrenutneSedmice(divRef, podaci, trenutnaSedmica, row, table);
+            if (niz[j] === window.trenutnaSedmica) {
+                iscrtajZaglavljeTrenutneSedmice(divRef, podaci, window.trenutnaSedmica, row, table);
             }
 
             else {
@@ -207,7 +207,7 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
         }
 
         //  ovdje moram prvo za one buduce sedmice da nacrtam jednu novu celiju ali ako je vec svih 14 sedmica nacrtano, onda necemo dodavati
-        if (trenutnaSedmica < 14) {
+        if (window.trenutnaSedmica < 14) {
             const celija = document.createElement("td");
             row.appendChild(celija);
             celija.rowSpan = 2;
@@ -218,7 +218,7 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
         let prisustvovaoPredavanjima = -1;
         let prisustvovaoVjezbama = -1;
         for (let j = 0; j < podaci.prisustva.length; j++) {
-            if (podaci.prisustva[j].index === podaci.studenti[i].index && podaci.prisustva[j].sedmica===trenutnaSedmica) {
+            if (podaci.prisustva[j].index === podaci.studenti[i].index && podaci.prisustva[j].sedmica===window.trenutnaSedmica) {
                 prisustvovaoPredavanjima = podaci.prisustva[j].predavanja;
                 prisustvovaoVjezbama = podaci.prisustva[j].vjezbe;
                 break;

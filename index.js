@@ -118,7 +118,8 @@ app.post('/prisustvo/predmet/:naziv/student/:index', (req, res)=>{
 
         //u slucaju da moramo ddoati sedmicu i informacije o njoj
         if(j===nasPredmet.prisustva.length-1){
-          nasPredmet.prisustva[j]
+        //   nasPredmet.prisustva[j]
+        //ima append file metoda, al ne bih da komplikujem jer imam vise razlicith objekata u jsonu, ovako lakse sa splice metodom 
           prisustvaPredmeta[indexPredmeta].prisustva.splice(j+1, 0, { "sedmica": prisustvo.sedmica, "predavanja": prisustvo.predavanja, "vjezbe": prisustvo.vjezbe, "index": parseInt(index)});
         }
      }

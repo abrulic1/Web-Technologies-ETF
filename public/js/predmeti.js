@@ -85,10 +85,11 @@ function odjaviSe() {
                     let cell = row.cells[j];
                     if (cell === clickedCell) {
                         var thElements = document.querySelectorAll("th");
-                        let trenutniTH = 0;
+                        // let trenutniTH = 0;
                         for (let k = 0; k < thElements.length; k++)
                             if (thElements[k].colSpan != 1) {
-                                trenutniTH = k;
+                                // trenutniTH = k;
+                                window.trenutnaSedmica=k-1;
                                 break;
                             }
                         clickedRow = i;
@@ -146,9 +147,9 @@ function odjaviSe() {
                         }
 
                         //sedmice tj th idu indexacijom 0, 1, 2... da idu od 1, 2, .. umanjili bi za 2 jer nam ne trebaju ime prezime i index kolone
-                        let celija = { "sedmica": trenutniTH - 1, "predavanja": predavanjaPrisustvo, "vjezbe": vjezbePrisustvo };
+                        let celija = { "sedmica": window.trenutnaSedmica, "predavanja": predavanjaPrisustvo, "vjezbe": vjezbePrisustvo };
                         let index = redovi[clickedRow - 1].cells[1].textContent;
-                       console.log('saljemo sedmicu ', trenutniTH-1, ' predavanja ', predavanjaPrisustvo, ' i vjezbe ', vjezbePrisustvo, ' i index ', index, ' i naziv ', naziv);
+                       console.log('saljemo sedmicu ', window.trenutnaSedmica, ' predavanja ', predavanjaPrisustvo, ' i vjezbe ', vjezbePrisustvo, ' i index ', index, ' i naziv ', naziv);
                          PoziviAjax.postPrisustvo(naziv, index, celija, (err, data) => {
                             if (err != null)
                                 console.log('ne valja');
@@ -157,7 +158,7 @@ function odjaviSe() {
                                     data = JSON.parse(data); 
                                     console.log('IZ PREDMETI SE SALJU : ', data);
                                     let div = document.getElementById('tabelaPrisustva');
-                                    const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, data, trenutniTH-1);
+                                    const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, data, window.trenutnaSedmica);
                                     tabela = document.getElementById('glavna-tabela');
                                      buttonsContainer = document.getElementById("dugmici");
                                     dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica);
