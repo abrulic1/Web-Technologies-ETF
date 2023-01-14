@@ -24,6 +24,7 @@ window.onload = function () {
             //ne uzimam logout dugme
             for (let i = 1; i < items.length; i++)
                 items[i].onclick = function () {
+                    window.trenutnaSedmica=0;
                     var current = document.getElementsByClassName('active');
                     if (current.length != 0) current[0].className = current[0].className.replace(' active', '');
                     items[i].className += " active";
