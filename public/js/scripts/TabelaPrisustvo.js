@@ -1,8 +1,10 @@
 var iscrtajDugmad = true;
-
-
-const TabelaPrisustvo = function (divRef, podaci, trenutnaSedmica = podaci.prisustva[podaci.prisustva.length - 1].sedmica) {
+// trenutnaSedmica = podaci.prisustva[podaci.prisustva.length - 1].sedmica
+var trenutnaSedmica = 0; 
+const TabelaPrisustvo = function (divRef, podaci) {
     divRef.textContent = "";
+    let kopija = JSON.parse(JSON.stringify(podaci));
+    let trenutnaSedmica = kopija.prisustva[kopija.prisustva.length - 1].sedmica;
     let ispravni = provjeriValidnostPodataka(podaci);
     const ukupnoUnesenihSedmica = izracunajKolikoSedmicaJeUneseno(podaci);
     sortirajPodatkePoSedmicama(podaci);
@@ -229,25 +231,27 @@ function crtanjeTabele(divRef, podaci, trenutnaSedmica) {
             row2.appendChild(celija);
             celija.classList = "predavanja";
             brojac++;
-            if (brojac > prisustvovaoPredavanjima)
-                celija.classList += " odsutan";
-            else if(prisustvovaoPredavanjima===-1)
-            celija.classList += " praznaCelija";
-            else celija.classList += " prisutan";
+            if (brojac > prisustvovaoPredavanjima && prisustvovaoPredavanjima != -1)
+                celija.classList.add("odsutan");
+            else if (prisustvovaoPredavanjima === -1) {
+                celija.classList.add("praznaCelija");
+            }
+            else celija.classList.add('prisutan');
         }
         brojac = 0;
         for (let a = 0; a < podaci.brojVjezbiSedmicno; a++) {
             const celija = document.createElement("td");
             row2.appendChild(celija);
-            celija.classList = "vjezbe"
+            celija.classList = "prisutan";
+            celija.classList = "vjezbe";
             brojac++;
-            if (brojac > prisustvovaoVjezbama)
-                celija.classList += " odsutan";
-               else if(prisustvovaoPredavanjima===-1)
-                    celija.classList+=" praznaCelija";
-                    else celija.classList += " prisutan"; 
+            if (brojac > prisustvovaoVjezbama && prisustvovaoVjezbama != -1)
+                celija.classList.add("odsutan");
+            else if (prisustvovaoVjezbama === -1) {
+                celija.classList.add("praznaCelija");
+            }
+            else celija.classList.add('prisutan');
         }
-
      }
 };
 

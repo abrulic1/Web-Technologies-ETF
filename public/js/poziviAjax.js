@@ -79,10 +79,11 @@ const PoziviAjax = (()=>{
       ajax.open("POST", "/prisustvo/predmet/"+naziv+"/student/"+index, true);
       ajax.setRequestHeader("Content-Type", "application/json");
       //ovo mi vrv ni ne treba
-      // ajax.send(JSON.stringify(prisustvo, null, 2));
+      console.log('ovo vovamo iz ajaksa ',JSON.stringify(prisustvo, null, 2), ' indeks ', index, ' i naiv predmeta ', naziv);
       ajax.send(JSON.stringify(prisustvo, null, 2));
       ajax.onreadystatechange = function() {
          if (ajax.readyState == 4 && ajax.status == 200){
+            console.log('iz ajaxa je response: ', ajax.response)
             fnCallback(null, ajax.responseText);
          }
          if (ajax.readyState == 4 && ajax.status == 404){

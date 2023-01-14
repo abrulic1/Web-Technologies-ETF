@@ -1,5 +1,7 @@
 let redovi = [];
 let tabela=null;
+let buttonsContainer = null;
+let nazivPredmeta='';
 document.getElementById('logout').addEventListener('click', odjaviSe);
 
 window.onload = function () {
@@ -25,7 +27,8 @@ window.onload = function () {
                     var current = document.getElementsByClassName('active');
                     if (current.length != 0) current[0].className = current[0].className.replace(' active', '');
                     items[i].className += " active";
-                    debugger
+                    
+                    
                     PoziviAjax.getPredmet(items[i].innerHTML, (err, data) => {
                         if (err != null)
                             console.log('Ne moze se dohvatiti predmet iz poziviAjax!')
@@ -34,14 +37,14 @@ window.onload = function () {
                             let div = document.getElementById('tabelaPrisustva');
                             const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, data);
                             tabela = document.getElementById('glavna-tabela');
-                            const buttonsContainer = document.getElementById("dugmici");
+                            buttonsContainer = document.getElementById("dugmici");
                             dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica);
                             redovi = document.getElementsByTagName('tr');
-                            debugger
-                            tabela.addEventListener('click', function(event){
-                            console.log('poziva se table listener'); 
-                            promijeniPrisustvo(items[i].innerHTML, event)
-                            })
+                            nazivPredmeta=items[i].innerHTML;
+                             // tabela.addEventListener('click', function(event){
+                            // console.log('poziva se table listener'); 
+                            promijeniPrisustvo(items[i].innerHTML)
+                            // })
                             // tabela.onclick=function(){
                             //    console.log('poziva se table listener'); 
                             // promijeniPrisustvo(items[i].innerHTML)
@@ -53,7 +56,6 @@ window.onload = function () {
         }
     })
 }
-
 
 
 function odjaviSe() {
@@ -68,21 +70,17 @@ function odjaviSe() {
 }
 
 
- function promijeniPrisustvo(naziv, event) {
-    //uzimam svaki drugi iz razloga sto mi ne treba da prolazim kroz redove koji imaju ovu informaciju ime i prezime, index...onda ovo P1 P2 V1 V2....
-    //Ovo moram rijesiti, previse for petlji, previse pristupa memoriji...ubacit streamove isl. 
+ function promijeniPrisustvo(naziv) {
     for (let i = 0; i < redovi.length; i += 2) {
         let row = redovi[i];
         for (let j = 0; j < row.cells.length; j++) { 
-        row.cells[j].addEventListener('click', function (event) {
+        row.cells[j].onclick = function (event) {
             console.log("pozvan je listener");
-            if (event.target.tagName === "TD") {
                 let clickedCell = event.target;
-                let clickedRow = row;
+                let clickedRow;
                 let clickedColumn;
                     let cell = row.cells[j];
                     if (cell === clickedCell) {
-                        //trazim sedmicu
                         var thElements = document.querySelectorAll("th");
                         let trenutniTH = 0;
                         for (let k = 0; k < thElements.length; k++)
@@ -92,8 +90,6 @@ function odjaviSe() {
                             }
                         clickedRow = i;
                         clickedColumn = j;
-                        //redovi gdje se nalaze celije koje su nam od interesa su u parnim redovima, a kolone su na segmentu [0, brpred+brvjezbi]
-                        //ovdje moram da prebrojim predavanja i vjezbe na koje je student prisustvovao
                         let predavanjaUkupno = 0;
                         let vjezbeUkupno = 0;
                         let predavanjaPrisustvo = 0;
@@ -117,21 +113,30 @@ function odjaviSe() {
                        
                         for (let k = 0; k < row.cells.length; k++) {
                             if (clickedColumn == k) {
-                                //Da li se treba ovdje zamijenit klasa???....
                                 if (row.cells[k].classList.contains('predavanja') && row.cells[k].classList.contains('prisutan')) {
                                     predavanjaPrisustvo--;
+                                    // row.cells[k].classList.remove('prisutan');
+                                    // row.cells[k].classList.add('odsutan');
                                     break;
                                 }
                                 else if (row.cells[k].classList.contains('predavanja') && (row.cells[k].classList.contains('odsutan') || row.cells[k].classList.contains('praznaCelija'))) {
                                     predavanjaPrisustvo++;
+                                    // row.cells[k].classList.remove('odsutan');
+                                    // row.cells[k].classList.remove('praznaCelija');
+                                    // row.cells[k].classList.add('prisutan');
                                     break;
                                 }
                                 else if (row.cells[k].classList.contains('vjezbe') && row.cells[k].classList.contains('prisutan')) {
                                     vjezbePrisustvo--;
+                                    // row.cells[k].classList.remove('prisutan');
+                                    // row.cells[k].classList.add('odsutan');
                                     break;
                                 }
                                 else if (row.cells[k].classList.contains('vjezbe') && (row.cells[k].classList.contains('odsutan') || row.cells[k].classList.contains('praznaCelija'))) {
                                     vjezbePrisustvo++;
+                                    // row.cells[k].classList.remove('odsutan');
+                                    // row.cells[k].classList.remove('praznaCelija');
+                                    // row.cells[k].classList.add('prisutan');
                                     break;
                                 }
                             }
@@ -140,29 +145,30 @@ function odjaviSe() {
                         //sedmice tj th idu indexacijom 0, 1, 2... da idu od 1, 2, .. umanjili bi za 2 jer nam ne trebaju ime prezime i index kolone
                         let celija = { "sedmica": trenutniTH - 1, "predavanja": predavanjaPrisustvo, "vjezbe": vjezbePrisustvo };
                         let index = redovi[clickedRow - 1].cells[1].textContent;
-                   
+                       console.log('saljemo sedmicu ', trenutniTH-1, ' predavanja ', predavanjaPrisustvo, ' i vjezbe ', vjezbePrisustvo, ' i index ', index, ' i naziv ', naziv);
                          PoziviAjax.postPrisustvo(naziv, index, celija, (err, data) => {
                             if (err != null)
                                 console.log('ne valja');
                             else {
                                 console.log('valja i iscrtava se ponovo sve ispocetka');
                                     data = JSON.parse(data); 
+                                    console.log('IZ PREDMETI SE SALJU : ', data);
                                     let div = document.getElementById('tabelaPrisustva');
                                     const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, data);
                                     tabela = document.getElementById('glavna-tabela');
-                                    const buttonsContainer = document.getElementById("dugmici");
+                                     buttonsContainer = document.getElementById("dugmici");
                                     dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica);
                                     redovi = document.getElementsByTagName('tr');
-                                    tabela.addEventListener('click', function(event){
-                                        console.log('poziva se table listener'); 
-                                        promijeniPrisustvo(items[i].innerHTML, event)
-                                        })
+                                     promijeniPrisustvo(naziv);
+                                     buttonsContainer.onclick = function(){
+                                    dugmad(buttonsContainer, prethodnaSedmica, sljedecaSedmica);
+                                    redovi = document.getElementsByTagName('tr');
+                                    promijeniPrisustvo(nazivPredmeta)
+}
                             }
                         })
                 }
-            }  //if event je kliknuta celija
-        })
-        // if(kliknutaJe) break;
+        }
     }
 }
 }

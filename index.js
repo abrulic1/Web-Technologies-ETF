@@ -87,38 +87,54 @@ app.get('/predmet/:naziv', (req, res)=>{
 })    
 
 app.post('/prisustvo/predmet/:naziv/student/:index', (req, res)=>{
-    debugger
+    
     const index = req.params.index;
     const naziv = req.params.naziv;
     const prisustvo = req.body; 
+    console.log('INDEEEEX ', index, naziv, prisustvo);
     let prisustvaPredmeta = fs.readFileSync(path.join(__dirname, 'data', 'prisustva.json'));
     prisustvaPredmeta = JSON.parse(prisustvaPredmeta);
     let indexPredmeta = 0;
-     let nasPredmet = prisustvaPredmeta.filter(p=>{ if(p.predmet===naziv) return p; indexPredmeta++;});
+    let nasPredmet=null;
+    for(let k=0; k<prisustvaPredmeta.length; k++){
+        if(prisustvaPredmeta[k].predmet===naziv){
+            nasPredmet=prisustvaPredmeta[k];
+             indexPredmeta=k;
+        }
+    }
+    //  console.log(indexPredmeta);
      //ovo je ruzno al mora ovako sad za sad...ovo [0]
-     let indexStudenta=0;
-     let nasStudent = nasPredmet[0].prisustva.filter( o=>{if(o.index==index) return o; indexStudenta++});
-     for(let i=0; i<nasStudent.length; i++){
-        if(nasStudent[i].sedmica==prisustvo.sedmica){
-            // console.log('prije promjene predavanja: ', nasStudent[i].predavanja);
-            nasStudent[i].predavanja=prisustvo.predavanja;
-            // console.log('poslije promjene predavanja: ', nasStudent[i].predavanja);
-            // console.log('prije promjene vjezbe: ', nasStudent[i].vjezbe);
-            nasStudent[i].vjezbe=prisustvo.vjezbe;
-            // console.log('poslije promjene vjezbe: ', nasStudent[i].vjezbe);
-            // console.log(nasStudent);
+    //  let indexStudenta=0;
+    //  let nasStudent = nasPredmet[0].prisustva.filter( o=>{if(o.index==index) return o; indexStudenta++});
+    //  for(let i=0; i<nasStudent.length; i++){
+    //     if(nasStudent[i].sedmica==prisustvo.sedmica){
+    //         // console.log('prije promjene predavanja: ', nasStudent[i].predavanja);
+    //         nasStudent[i].predavanja=prisustvo.predavanja;
+    //         // console.log('poslije promjene predavanja: ', nasStudent[i].predavanja);
+    //         // console.log('prije promjene vjezbe: ', nasStudent[i].vjezbe);
+    //         nasStudent[i].vjezbe=prisustvo.vjezbe;
+    //         // console.log('poslije promjene vjezbe: ', nasStudent[i].vjezbe);
+    //         // console.log(nasStudent);
+    //         break;
+    //     }
+    //  }
+     console.log('nas predmet je ', nasPredmet);
+    let indexZaAzuriranje=0;
+     for(let j=0; j<nasPredmet.prisustva.length; j++){
+        if(parseInt(nasPredmet.prisustva[j].sedmica)===parseInt(prisustvo.sedmica) && parseInt(nasPredmet.prisustva[j].index)===parseInt(index)){
+            indexZaAzuriranje=j;
+            nasPredmet.prisustva[j].predavanja=prisustvo.predavanja;
+            nasPredmet.prisustva[j].vjezbe=prisustvo.vjezbe;
+            console.log('Ovo iz indeksa provjera ', prisustvaPredmeta[indexPredmeta]);
+            prisustvaPredmeta[indexPredmeta].prisustva[j].predavanja=prisustvo.predavanja;
+            prisustvaPredmeta[indexPredmeta].prisustva[j].vjezbe=prisustvo.vjezbe;
             break;
         }
      }
-     
-     for(let j=0; j<nasPredmet[0].prisustva.length; j++){
-        if(nasPredmet[0].prisustva[j].sedmica==prisustvo.sedmica && nasPredmet[0].prisustva[j].index==index){
-            nasPredmet[0].prisustva[j].predavanja=prisustvo.predavanja;
-            nasPredmet[0].prisustva[j].vjezbe=prisustvo.vjezbe;
-            break;
-        }
-     }
-    res.status(200).send(nasPredmet[0]);
+
+    fs.writeFileSync(path.join(__dirname, 'data', 'prisustva.json'), JSON.stringify(prisustvaPredmeta, null, 2));
+    //azuriranje jsona
+    res.status(200).send(nasPredmet);
     //ovdje je sada potrebno da izmijenim podatke u json fajlu, vratim ih, i ponovo kasnije icrtam tabelu
 })
 
