@@ -79,7 +79,7 @@
       },
       {
         "sedmica": 2,
-        "predavanja": 1,
+        "predavanja": 2,
         "vjezbe": 1,
         "index": 12347
       },
@@ -112,6 +112,12 @@
         "predavanja": 2,
         "vjezbe": 1,
         "index": 12348
+      },
+      {
+        "sedmica": 1,
+        "predavanja": 1,
+        "vjezbe": 2,
+        "index": 12349
       }
     ],
     "predmet": "Razvoj mobilnih aplikacija",

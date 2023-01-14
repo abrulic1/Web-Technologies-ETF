@@ -102,26 +102,11 @@ app.post('/prisustvo/predmet/:naziv/student/:index', (req, res)=>{
              indexPredmeta=k;
         }
     }
-    //  console.log(indexPredmeta);
-     //ovo je ruzno al mora ovako sad za sad...ovo [0]
-    //  let indexStudenta=0;
-    //  let nasStudent = nasPredmet[0].prisustva.filter( o=>{if(o.index==index) return o; indexStudenta++});
-    //  for(let i=0; i<nasStudent.length; i++){
-    //     if(nasStudent[i].sedmica==prisustvo.sedmica){
-    //         // console.log('prije promjene predavanja: ', nasStudent[i].predavanja);
-    //         nasStudent[i].predavanja=prisustvo.predavanja;
-    //         // console.log('poslije promjene predavanja: ', nasStudent[i].predavanja);
-    //         // console.log('prije promjene vjezbe: ', nasStudent[i].vjezbe);
-    //         nasStudent[i].vjezbe=prisustvo.vjezbe;
-    //         // console.log('poslije promjene vjezbe: ', nasStudent[i].vjezbe);
-    //         // console.log(nasStudent);
-    //         break;
-    //     }
-    //  }
+
      console.log('nas predmet je ', nasPredmet);
     let indexZaAzuriranje=0;
      for(let j=0; j<nasPredmet.prisustva.length; j++){
-        if(parseInt(nasPredmet.prisustva[j].sedmica)===parseInt(prisustvo.sedmica) && parseInt(nasPredmet.prisustva[j].index)===parseInt(index)){
+        if(parseInt(nasPredmet.prisustva[j].sedmica)===parseInt(prisustvo.sedmica) && parseInt(nasPredmet.prisustva[j].index)===parseInt(parseInt(index))){
             indexZaAzuriranje=j;
             nasPredmet.prisustva[j].predavanja=prisustvo.predavanja;
             nasPredmet.prisustva[j].vjezbe=prisustvo.vjezbe;
@@ -129,6 +114,12 @@ app.post('/prisustvo/predmet/:naziv/student/:index', (req, res)=>{
             prisustvaPredmeta[indexPredmeta].prisustva[j].predavanja=prisustvo.predavanja;
             prisustvaPredmeta[indexPredmeta].prisustva[j].vjezbe=prisustvo.vjezbe;
             break;
+        }
+
+        //u slucaju da moramo ddoati sedmicu i informacije o njoj
+        if(j===nasPredmet.prisustva.length-1){
+          nasPredmet.prisustva[j]
+          prisustvaPredmeta[indexPredmeta].prisustva.splice(j+1, 0, { "sedmica": prisustvo.sedmica, "predavanja": prisustvo.predavanja, "vjezbe": prisustvo.vjezbe, "index": parseInt(index)});
         }
      }
 
