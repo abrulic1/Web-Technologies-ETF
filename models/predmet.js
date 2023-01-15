@@ -19,6 +19,9 @@ module.exports = function (sequelize, DataTypes) {
        },
        brojPredavanjaSedmicno: Sequelize.INTEGER,
        brojVjezbiSedmicno: Sequelize.INTEGER
+   }, {
+    createdAt: false,
+    updatedAt: false
    });
    return Predmet;
 }

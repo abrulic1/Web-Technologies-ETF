@@ -22,7 +22,10 @@ async function checkConnection(){
 try {
     await sequelize.authenticate();
     console.log('Uspjesno ste konektovani na bazu');
-    sequelize.sync({ force: true }).then(() => {
+    Nastavnik.hasMany(Predmet);
+    Predmet.belongsToMany(Student, {through: 'PredmetStudent'});
+    Student.hasMany(Prisustvo);
+    sequelize.sync().then(() => {
       sequelize.query("SHOW TABLES").then(tables => {
         console.log(tables);
     });

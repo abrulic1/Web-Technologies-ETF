@@ -21,6 +21,10 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false, 
         unique: true
        }
+   },
+   {
+    createdAt: false,
+    updatedAt: false
    });
    return Student;
 }

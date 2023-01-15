@@ -5,7 +5,7 @@ const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const bcrypt = require('bcrypt');
-const { type } = require('os');
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public', 'html')));

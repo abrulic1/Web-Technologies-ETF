@@ -21,6 +21,9 @@ module.exports = function (sequelize, DataTypes) {
         type: Sequelize.INTEGER, 
         allowNull: false
        }
+   },{
+    createdAt: false,
+    updatedAt: false
    });
    return Prisustvo;
 }
