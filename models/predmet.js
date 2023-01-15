@@ -1,0 +1,24 @@
+const Sequelize = require("sequelize");
+const sequelize = require("./baza.js");   //ovdje je importovana konekcija na bazu
+ 
+
+//predmet jedan je vezan za jednog profesora, al dodat ce se foreign key automatski
+
+module.exports = function (sequelize, DataTypes) {
+    const Predmet = sequelize.define('predmet', {
+       id: {
+        typeof: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+       },
+       naziv: {
+        type: Sequelize.STRING, 
+        allowNull: false,
+        unique: true
+       },
+       brojPredavanjaSedmicno: Sequelize.INTEGER,
+       brojVjezbiSedmicno: Sequelize.INTEGER
+   });
+   return Predmet;
+}
