@@ -5,7 +5,12 @@ const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const bcrypt = require('bcrypt');
-
+const {Sequelize, sequelize, Nastavnik, Predmet, Prisustvo, Student} = require('./baza');
+sequelize.sync().then(() => {
+    console.log("Synced db.");
+}).catch((err) => {
+    console.log("Failed to sync db: " + err.message);
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public', 'html')));
@@ -21,33 +26,40 @@ app.use(session({
 
 //index page igdje?
 
+
 app.get('/prijava(.html)?', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
+res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
 })
 
+
 app.post('/login(.html)?', (req, res) => {
-    const data = fs.readFileSync(path.join(__dirname, 'data', 'nastavnici.json'));
-    const users = JSON.parse(data);
-    const user = users.find(objekat => objekat.nastavnik.username === req.body.username);
-    if (user) {
-        bcrypt.compare(req.body.password, user["nastavnik"].password_hash, function (err, result) {
-            if (err) {
-                console.error(err);
-            } else if (result) {
-                req.session.user = user;
-                const poruka = {
-                    "poruka": "Uspješna prijava"
-                }
-                res.status(200).send(JSON.stringify(poruka));
-            } else {
-                const poruka = {
-                    "poruka": "Neuspješna prijava"
-                }
-                res.status(404).send(JSON.stringify(poruka));
-            }
+    const data = Nastavnik.findAll()
+        .then(data => {
+            const users = data.map(user => user.dataValues);
+            const user = users.find(objekat => objekat.username === req.body.username);
+            if (user) {
+                bcrypt.compare(req.body.password, user.password_hash, function (err, result) {
+                    if (err) {
+                        console.error(err);
+                    } else if (result) {
+                        req.session.user = user;
+                        const poruka = {
+                            "poruka": "Uspješna prijava"
+                        }
+                        res.status(200).send(JSON.stringify(poruka));
+                    } else {
+                        const poruka = {
+                            "poruka": "Neuspješna prijava"
+                        }
+                        res.status(404).send(JSON.stringify(poruka));
+                    }
+                });
+            } else
+                res.status(404).send('Nema takvog korisnika');
+        })
+        .catch(err => {
+            console.error(err);
         });
-    } else
-        res.status(404).send('Nema takvog korisnika');
 })
 
 
@@ -56,12 +68,14 @@ app.post("/logout(.html)?", (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
 })
 
+
 app.get('/predmeti(.html)?', (req, res) => {
     if (req.session.user)
         res.status(200).json(req.session.user.predmeti);
     else
         res.status(400).send(JSON.stringify({ greska: 'Korisnik nije loginovan' }));
 })
+
 
 app.get('/predmet/:naziv', (req, res) => {
     naziv = req.params.naziv;
@@ -73,6 +87,7 @@ app.get('/predmet/:naziv', (req, res) => {
     else
         res.status(404).send('neispravno');
 })
+
 
 app.post('/prisustvo/predmet/:naziv/student/:index', (req, res) => {
     const { index, naziv } = req.params;
