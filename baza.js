@@ -24,18 +24,27 @@ try {
     console.log('Uspjesno ste konektovani na bazu');
     Nastavnik.hasMany(Predmet);
     Predmet.belongsToMany(Student, {through: 'PredmetStudent'});
-    // Student.hasMany(Prisustvo, {foreignKey: 'index', targetKey: 'index'});
     Prisustvo.belongsTo(Student, {foreignKey: 'index', targetKey: 'index'});
-    sequelize.sync({force:true}).then(() => {
-      sequelize.query("SHOW TABLES").then(tables => {
-        console.log(tables);
-    });
-   })
+  //   sequelize.sync().then(() => {
+  //     sequelize.query("SHOW TABLES").then(tables => {
+  //       console.log(tables);
+  //   });
+  //  })
+  sequelize.sync();
   } catch (error) {
     console.error('Problem prilokom pokusaja konekcije na bazu', error);
   }
 }
 
 checkConnection();
+
+
+async function getStudents(){
+  const [row] = await sequelize.query('SELECT * FROM students');
+  console.log(row)
+}
+
+const students = getStudents();
+// console.log(students);
 
 module.exports = sequelize;
