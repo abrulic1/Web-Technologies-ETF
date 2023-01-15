@@ -13,10 +13,20 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, pr
  }
 );
 
+const Nastavnik = require('./models/nastavnik')(sequelize);
+const Predmet = require('./models/predmet')(sequelize);
+const Prisustvo = require('./models/prisustvo')(sequelize);
+const Student = require('./models/student')(sequelize);
+
 async function checkConnection(){
 try {
     await sequelize.authenticate();
     console.log('Uspjesno ste konektovani na bazu');
+    sequelize.sync({ force: true }).then(() => {
+      sequelize.query("SHOW TABLES").then(tables => {
+        console.log(tables);
+    });
+   })
   } catch (error) {
     console.error('Problem prilokom pokusaja konekcije na bazu', error);
   }

@@ -1,12 +1,12 @@
 const Sequelize = require("sequelize");
-const sequelize = require("./baza.js");   //ovdje je importovana konekcija na bazu
+const sequelize = require("../baza");   //ovdje je importovana konekcija na bazu
  
 //jedno prisustvo je samo za jednog studenta vezano
 
 module.exports = function (sequelize, DataTypes) {
     const Prisustvo = sequelize.define('prisustvo', {
        id: {
-        typeof: Sequelize.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true

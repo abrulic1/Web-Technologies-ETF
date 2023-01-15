@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const sequelize = require("./baza.js");   //ovdje je importovana konekcija na bazu
+const sequelize = require("../baza");   //ovdje je importovana konekcija na bazu
  
 //biljeske za mene: ne definisem rucno foreign key, jer ce se automatski dodati kada dodam veze
 //imamo i predmete, al jedan profesor moze imati vise predmeta, jedan predmet je vezan za jednog profesora, tako da cemo to kroz relaciju izmedju modela kasnije regulisati
@@ -7,7 +7,7 @@ const sequelize = require("./baza.js");   //ovdje je importovana konekcija na ba
 module.exports = function (sequelize, DataTypes) {
     const Nastavnik = sequelize.define('nastavnik', {
        id: {
-        typeof: Sequelize.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true

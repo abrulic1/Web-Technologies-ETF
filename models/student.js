@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const sequelize = require("./baza.js");   //ovdje je importovana konekcija na bazu
+const sequelize = require("../baza");   //ovdje je importovana konekcija na bazu
  
 //jedan student slusa vise predmeta
 //jedan student ima vise zabiljezenih prisustva 
@@ -7,7 +7,7 @@ const sequelize = require("./baza.js");   //ovdje je importovana konekcija na ba
 module.exports = function (sequelize, DataTypes) {
     const Student = sequelize.define('student', {
        id: {
-        typeof: Sequelize.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
