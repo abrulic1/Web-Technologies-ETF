@@ -43,6 +43,7 @@ app.post('/login(.html)?', (req, res) => {
                         console.error(err);
                     } else if (result) {
                         req.session.user = user;
+                        //OVDJE MORAM DODATI I PREDMETE JER SE NISU AUTOMATSKI DODALI, DRUGA TABELA..
                         const poruka = {
                             "poruka": "Uspješna prijava"
                         }
@@ -65,11 +66,13 @@ app.post('/login(.html)?', (req, res) => {
 
 app.post("/logout(.html)?", (req, res) => {
     req.session.user = null;
+    //ako dodam gore i req.session.predmeti moram i njih ovdje na null postaviti
     res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
 })
 
 
 app.get('/predmeti(.html)?', (req, res) => {
+    //ovo se mora samo popraviti, tj gore cu dodat odmah i predmete, tkd ce ovdje onda biti if (req.session.predmeti) onda da se oni i vrate
     if (req.session.user)
         res.status(200).json(req.session.user.predmeti);
     else
@@ -79,6 +82,7 @@ app.get('/predmeti(.html)?', (req, res) => {
 
 app.get('/predmet/:naziv', (req, res) => {
     naziv = req.params.naziv;
+    //ovdje sad trebam iz baze citati, profiltrirati podatke da se vrate samo za taj naziv predmeta, i tjt 
     let prisustvoPoPredmetima = fs.readFileSync(path.join(__dirname, 'data', 'prisustva.json'));
     prisustvoPoPredmetima = JSON.parse(prisustvoPoPredmetima);
     let prisustva = prisustvoPoPredmetima.find(p => p.predmet === naziv);
@@ -92,6 +96,7 @@ app.get('/predmet/:naziv', (req, res) => {
 app.post('/prisustvo/predmet/:naziv/student/:index', (req, res) => {
     const { index, naziv } = req.params;
     const prisustvo = req.body;
+    //citanje iz tabele prisustvo ovdje idemo
     let prisustvaPredmeta = fs.readFileSync(path.join(__dirname, 'data', 'prisustva.json'));
     prisustvaPredmeta = JSON.parse(prisustvaPredmeta);
     let indexPredmeta = 0;
@@ -104,6 +109,7 @@ app.post('/prisustvo/predmet/:naziv/student/:index', (req, res) => {
     }
 
     let indexZaAzuriranje = 0;
+    //ovdje ide izmjena u bazi
     for (let j = 0; j < nasPredmet.prisustva.length; j++) {
         if (parseInt(nasPredmet.prisustva[j].sedmica) === parseInt(prisustvo.sedmica) && parseInt(nasPredmet.prisustva[j].index) === parseInt(parseInt(index))) {
             indexZaAzuriranje = j;
@@ -115,12 +121,18 @@ app.post('/prisustvo/predmet/:naziv/student/:index', (req, res) => {
         }
 
         //u slucaju da moramo dodoati sedmicu i informacije o njoj
+        //ovdje sad ide ubacivanje u bazu
         if (j === nasPredmet.prisustva.length - 1)
             prisustvaPredmeta[indexPredmeta].prisustva.splice(j + 1, 0, { "sedmica": prisustvo.sedmica, "predavanja": prisustvo.predavanja, "vjezbe": prisustvo.vjezbe, "index": parseInt(index) });
     }
 
+    //ovo nista sad, samo vracanje predmeta
     fs.writeFileSync(path.join(__dirname, 'data', 'prisustva.json'), JSON.stringify(prisustvaPredmeta, null, 2));
     res.status(200).send(nasPredmet);
 })
 
 app.listen(3000);
+
+
+//imam vise puta citanje u iz prisustva i profesora a trebat ce vrv i za ostale, tkd to bi bilo dobro da se izdvoji u neke metode da se
+//ne duplira kod
