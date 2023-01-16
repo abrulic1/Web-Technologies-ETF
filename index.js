@@ -43,11 +43,17 @@ app.post('/login(.html)?', (req, res) => {
                         console.error(err);
                     } else if (result) {
                         req.session.user = user;
-                        //OVDJE MORAM DODATI I PREDMETE JER SE NISU AUTOMATSKI DODALI, DRUGA TABELA..
-                        const poruka = {
-                            "poruka": "Uspješna prijava"
-                        }
-                        res.status(200).send(JSON.stringify(poruka));
+                        Predmet.findAll().then(sviPredmeti=>{
+                            let profesoroviPredmeti = sviPredmeti.map(p=>p.dataValues);;
+                             profesoroviPredmeti=profesoroviPredmeti.filter(p=>p.nastavnikId===req.session.user.id);
+                            //  profesoroviPredmeti = profesoroviPredmeti.map(p=>p.naziv);
+                             req.session.predmeti = profesoroviPredmeti;
+                            //  console.log('Profesorovi predmeti su: ', req.session.predmeti);
+                            const poruka = {
+                                "poruka": "Uspješna prijava"
+                            }
+                            res.status(200).send(JSON.stringify(poruka));
+                        })
                     } else {
                         const poruka = {
                             "poruka": "Neuspješna prijava"
@@ -66,15 +72,14 @@ app.post('/login(.html)?', (req, res) => {
 
 app.post("/logout(.html)?", (req, res) => {
     req.session.user = null;
-    //ako dodam gore i req.session.predmeti moram i njih ovdje na null postaviti
+    req.session.predmeti = null;
     res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
 })
 
 
 app.get('/predmeti(.html)?', (req, res) => {
-    //ovo se mora samo popraviti, tj gore cu dodat odmah i predmete, tkd ce ovdje onda biti if (req.session.predmeti) onda da se oni i vrate
     if (req.session.user)
-        res.status(200).json(req.session.user.predmeti);
+        res.status(200).json(req.session.predmeti);
     else
         res.status(400).send(JSON.stringify({ greska: 'Korisnik nije loginovan' }));
 })
