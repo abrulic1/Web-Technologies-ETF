@@ -23,7 +23,7 @@ window.onload = function () {
             lista.id = 'lista';
             for (let i = 0; i < data.length; i++) {
                 let stavka = document.createElement('li');
-                stavka.innerHTML = data[i];
+                stavka.innerHTML = data[i].naziv;
                 lista.appendChild(stavka);
             }
             let nav = document.getElementById('nav');

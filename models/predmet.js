@@ -17,8 +17,14 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         unique: true
        },
-       brojPredavanjaSedmicno: Sequelize.INTEGER,
-       brojVjezbiSedmicno: Sequelize.INTEGER
+       brojPredavanjaSedmicno: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+       },
+       brojVjezbiSedmicno: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+       }
    }, {
     createdAt: false,
     updatedAt: false

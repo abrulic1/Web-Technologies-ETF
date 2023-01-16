@@ -139,7 +139,7 @@
       },
       {
         "sedmica": 5,
-        "predavanja": 0,
+        "predavanja": 1,
         "vjezbe": 0,
         "index": 12345
       },
@@ -192,13 +192,13 @@
       },
       {
         "sedmica": 2,
-        "predavanja": 2,
-        "vjezbe": 2,
+        "predavanja": 0,
+        "vjezbe": 0,
         "index": 12345
       },
       {
         "sedmica": 2,
-        "predavanja": 2,
+        "predavanja": 0,
         "vjezbe": 2,
         "index": 12346
       }

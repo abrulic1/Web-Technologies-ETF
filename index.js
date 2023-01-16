@@ -5,8 +5,8 @@ const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const bcrypt = require('bcrypt');
-const {Sequelize, sequelize, Nastavnik, Predmet, Prisustvo, Student} = require('./baza');
-sequelize.sync().then(() => {
+const {Sequelize, sequelize, Nastavnik, Predmet, Prisustvo, Student, PredmetStudent} = require('./baza');
+sequelize.sync({force: true}).then(() => {
     console.log("Synced db.");
 }).catch((err) => {
     console.log("Failed to sync db: " + err.message);
@@ -87,14 +87,19 @@ app.get('/predmeti(.html)?', (req, res) => {
 
 app.get('/predmet/:naziv', (req, res) => {
     naziv = req.params.naziv;
-    //ovdje sad trebam iz baze citati, profiltrirati podatke da se vrate samo za taj naziv predmeta, i tjt 
-    let prisustvoPoPredmetima = fs.readFileSync(path.join(__dirname, 'data', 'prisustva.json'));
-    prisustvoPoPredmetima = JSON.parse(prisustvoPoPredmetima);
-    let prisustva = prisustvoPoPredmetima.find(p => p.predmet === naziv);
-    if (prisustva)
+    Prisustvo.findAll().then(data=>{
+        const prisustva = data.map(p => p.dataValues);
+        //ne moze ovo zato sto mi baza ne valja, nemam u bazi uopce predmet tj naziv predmeta u prisustviva
+        // let prisustva = prisustvoPoPredmetima.find(p => p.predmet === naziv);
+        // console.log('ova prisustva ovdje su ', prisustva);
+
+        if (prisustva)
         res.status(200).send(prisustva)
-    else
+    else{
+        console.log('!@#$%&*&^%^$%#$@#@#$%^&*&&^%$#@#$%^');
         res.status(404).send('neispravno');
+    }
+    })
 })
 
 
