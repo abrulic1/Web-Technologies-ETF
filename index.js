@@ -6,7 +6,7 @@ const fs = require('fs');
 const app = express();
 const bcrypt = require('bcrypt');
 const {Sequelize, sequelize, Nastavnik, Predmet, Prisustvo, Student, PredmetStudent} = require('./baza');
-sequelize.sync({force: true}).then(() => {
+sequelize.sync().then(() => {
     console.log("Synced db.");
 }).catch((err) => {
     console.log("Failed to sync db: " + err.message);
@@ -87,20 +87,33 @@ app.get('/predmeti(.html)?', (req, res) => {
 
 app.get('/predmet/:naziv', (req, res) => {
     naziv = req.params.naziv;
-    Prisustvo.findAll().then(data=>{
-        const prisustva = data.map(p => p.dataValues);
-        //ne moze ovo zato sto mi baza ne valja, nemam u bazi uopce predmet tj naziv predmeta u prisustviva
-        // let prisustva = prisustvoPoPredmetima.find(p => p.predmet === naziv);
-        // console.log('ova prisustva ovdje su ', prisustva);
+        // moram naci sve studente (ako ih ima) iz medjutabele predmetstudent i tako pokupiti njihove ideve za taj odabrani predmet
+        //onda iz cijelog prisustva uzimam samo prisustva za studente iz liste tih studenata iz medjutabele i tog id predmeta
+    let predmetId = 0;
+    for (let i = 0; i < req.session.predmeti.length; i++)
+        if (req.session.predmeti[i].naziv === naziv) {
+            predmetId = req.session.predmeti[i].id;
+            break;
+        }
+    Prisustvo.findAll().then(data => {
+        data = data.map(d => d.dataValues);
+        // console.log('dateajdna ', data);
+        let prisustva = [];
 
-        if (prisustva)
-        res.status(200).send(prisustva)
-    else{
-        console.log('!@#$%&*&^%^$%#$@#@#$%^&*&&^%$#@#$%^');
-        res.status(404).send('neispravno');
-    }
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].predmetId === predmetId)
+                prisustva.push(data[i]);
+        }
+
+        if (prisustva) {
+            console.log('OVDJE SU NAM PRISUSTVA SAD ', prisustva)
+            res.status(200).send(prisustva)
+        }
+        else
+            res.status(404).send('neispravno');
     })
-})
+    })
+
 
 
 app.post('/prisustvo/predmet/:naziv/student/:index', (req, res) => {

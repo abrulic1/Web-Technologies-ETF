@@ -46,7 +46,7 @@ Nastavnik.hasMany(Predmet, {foreignKey: {
   allowNull: false,
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE'
-  }
+   }
 });
 // Predmet.belongsToMany(Student, {through: 'PredmetStudent'});
 Predmet.belongsToMany(Student, { through: PredmetStudent });
@@ -60,4 +60,12 @@ Prisustvo.belongsTo(Student, {
       onUpdate: 'CASCADE'
   }
 });
+Prisustvo.belongsTo(Predmet, {
+  foreignKey: {
+    name: 'predmetId',
+    allowNull: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+}
+})
 module.exports = {Sequelize, sequelize, Nastavnik, Predmet, Prisustvo, Student, PredmetStudent};
