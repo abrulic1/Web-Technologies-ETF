@@ -2,10 +2,8 @@ const PoziviAjax = (() => {
    function impl_getPredmet(naziv, fnCallback) {
       var ajax = new XMLHttpRequest();
       ajax.onreadystatechange = function () {
-         if (ajax.readyState == 4 && ajax.status == 200){
-            console.log('u ajazxu imamo response: \n', ajax.response);
+         if (ajax.readyState == 4 && ajax.status == 200)
             fnCallback(null, ajax.response);
-         }
 
          if (ajax.readyState == 4 && ajax.status == 404)
             fnCallback(ajax.status, null);

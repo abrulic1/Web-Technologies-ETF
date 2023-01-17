@@ -23,6 +23,7 @@ window.onload = function () {
             lista.id = 'lista';
             for (let i = 0; i < data.length; i++) {
                 let stavka = document.createElement('li');
+                //na spirali 3 je bilo umjesto ove 27 linije ovo: stavka.innerHTML = data[i];
                 stavka.innerHTML = data[i].naziv;
                 lista.appendChild(stavka);
             }
@@ -37,12 +38,12 @@ window.onload = function () {
                     var current = document.getElementsByClassName('active');
                     if (current.length != 0) current[0].className = current[0].className.replace(' active', '');
                     items[i].className += " active";
-                //    console.log('Kliknuti item je ', items[i].innerHTML);
+
                     PoziviAjax.getPredmet(items[i].innerHTML, (err, data) => {
                         if (err != null)
                             console.log('Ne moze se dohvatiti predmet iz poziviAjax!')
                         else {
-                            // data = JSON.parse(data);
+                            data = JSON.parse(data);
                             let div = document.getElementById('tabelaPrisustva');
                             const { prethodnaSedmica, sljedecaSedmica } = TabelaPrisustvo(div, data);
                             buttonsContainer = document.getElementById("dugmici");

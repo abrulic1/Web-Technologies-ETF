@@ -68,8 +68,9 @@ app.get('/predmet/:naziv', (req, res) => {
     let prisustvoPoPredmetima = fs.readFileSync(path.join(__dirname, 'data', 'prisustva.json'));
     prisustvoPoPredmetima = JSON.parse(prisustvoPoPredmetima);
     let prisustva = prisustvoPoPredmetima.find(p => p.predmet === naziv);
-    if (prisustva)
+    if (prisustva){
         res.status(200).send(prisustva)
+    }
     else
         res.status(404).send('neispravno');
 })

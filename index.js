@@ -5,7 +5,7 @@ const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const bcrypt = require('bcrypt');
-const {Sequelize, sequelize, Nastavnik, Predmet, Prisustvo, Student, PredmetStudent} = require('./baza');
+const { Sequelize, sequelize, Nastavnik, Predmet, Prisustvo, Student, PredmetStudent } = require('./baza');
 sequelize.sync().then(() => {
     console.log("Synced db.");
 }).catch((err) => {
@@ -28,7 +28,7 @@ app.use(session({
 
 
 app.get('/prijava(.html)?', (req, res) => {
-res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
+    res.status(200).sendFile(path.join(__dirname, 'public', 'html', 'prijava.html'));
 })
 
 
@@ -43,11 +43,11 @@ app.post('/login(.html)?', (req, res) => {
                         console.error(err);
                     } else if (result) {
                         req.session.user = user;
-                        Predmet.findAll().then(sviPredmeti=>{
-                            let profesoroviPredmeti = sviPredmeti.map(p=>p.dataValues);;
-                             profesoroviPredmeti=profesoroviPredmeti.filter(p=>p.nastavnikId===req.session.user.id);
+                        Predmet.findAll().then(sviPredmeti => {
+                            let profesoroviPredmeti = sviPredmeti.map(p => p.dataValues);;
+                            profesoroviPredmeti = profesoroviPredmeti.filter(p => p.nastavnikId === req.session.user.id);
                             //  profesoroviPredmeti = profesoroviPredmeti.map(p=>p.naziv);
-                             req.session.predmeti = profesoroviPredmeti;
+                            req.session.predmeti = profesoroviPredmeti;
                             //  console.log('Profesorovi predmeti su: ', req.session.predmeti);
                             const poruka = {
                                 "poruka": "Uspješna prijava"
@@ -86,33 +86,62 @@ app.get('/predmeti(.html)?', (req, res) => {
 
 
 app.get('/predmet/:naziv', (req, res) => {
+    let vrati = {};
     naziv = req.params.naziv;
-        // moram naci sve studente (ako ih ima) iz medjutabele predmetstudent i tako pokupiti njihove ideve za taj odabrani predmet
-        //onda iz cijelog prisustva uzimam samo prisustva za studente iz liste tih studenata iz medjutabele i tog id predmeta
-    let predmetId = 0;
-    for (let i = 0; i < req.session.predmeti.length; i++)
-        if (req.session.predmeti[i].naziv === naziv) {
-            predmetId = req.session.predmeti[i].id;
-            break;
-        }
-    Prisustvo.findAll().then(data => {
+    PredmetStudent.findAll().then(data => {
         data = data.map(d => d.dataValues);
-        // console.log('dateajdna ', data);
-        let prisustva = [];
-
-        for (let i = 0; i < data.length; i++) {
+        let studentiId = [];
+        let predmetId = 0;
+        let indexNasegPredmeta = 0;
+        for (let i = 0; i < req.session.predmeti.length; i++)
+            if (req.session.predmeti[i].naziv === naziv) {
+                predmetId = req.session.predmeti[i].id;
+                indexNasegPredmeta = i;
+                break;
+            }
+        
+        for (let i = 0; i < data.length; i++) 
             if (data[i].predmetId === predmetId)
-                prisustva.push(data[i]);
-        }
+                studentiId.push(data[i].studentId);
+            
+        Student.findAll().then(data => {
+            data = data.map(d => d.dataValues);
+            let studenti = [];
+            for (let i = 0; i < data.length; i++) {
+                if (studentiId.includes(data[i].id))
+                    studenti.push(data[i]);
+            }
 
-        if (prisustva) {
-            console.log('OVDJE SU NAM PRISUSTVA SAD ', prisustva)
-            res.status(200).send(prisustva)
-        }
-        else
-            res.status(404).send('neispravno');
+            vrati.studenti = studenti;
+
+            Prisustvo.findAll().then(data => {
+                data = data.map(d => d.dataValues);
+                // console.log('dateajdna ', data);
+                let prisustva = [];
+
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].predmetId === predmetId)
+                        prisustva.push(data[i]);
+                }
+
+                vrati.prisustva = prisustva;
+                vrati.predmet = naziv;
+                vrati.brojPredavanjaSedmicno = req.session.predmeti[indexNasegPredmeta].brojPredavanjaSedmicno;
+                vrati.brojVjezbiSedmicno = req.session.predmeti[indexNasegPredmeta].brojVjezbiSedmicno;
+                if (vrati) {
+                    // console.log('OVDJE SU NAM PRISUSTVA SAD ', vrati)
+                    console.log('tundertf ', vrati);
+                    res.status(200).send(vrati)
+                }
+                else
+                    res.status(404).send('neispravno');
+
+
+            })
+        })
+
     })
-    })
+})
 
 
 
