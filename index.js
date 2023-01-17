@@ -135,8 +135,6 @@ app.get('/predmet/:naziv', (req, res) => {
                 }
                 else
                     res.status(404).send('neispravno');
-
-
             })
         })
 
@@ -148,43 +146,80 @@ app.get('/predmet/:naziv', (req, res) => {
 app.post('/prisustvo/predmet/:naziv/student/:index', (req, res) => {
     const { index, naziv } = req.params;
     const prisustvo = req.body;
-    //citanje iz tabele prisustvo ovdje idemo
-    let prisustvaPredmeta = fs.readFileSync(path.join(__dirname, 'data', 'prisustva.json'));
-    prisustvaPredmeta = JSON.parse(prisustvaPredmeta);
-    let indexPredmeta = 0;
-    let nasPredmet = null;
-    for (let k = 0; k < prisustvaPredmeta.length; k++) {
-        if (prisustvaPredmeta[k].predmet === naziv) {
-            nasPredmet = prisustvaPredmeta[k];
-            indexPredmeta = k;
-        }
-    }
+    //imamo informacije o indexu studenta, nazivu predmeta, sedmici, prisustvu pred i prisustvu vjezbama
+    let vrati = {};
+    PredmetStudent.findAll().then(data => {
+        data = data.map(d => d.dataValues);
+        let studentiId = [];
+        let predmetId = 0;
+        let indexNasegPredmeta = 0;
+        for (let i = 0; i < req.session.predmeti.length; i++)
+            if (req.session.predmeti[i].naziv === naziv) {
+                predmetId = req.session.predmeti[i].id;
+                indexNasegPredmeta = i;
+                break;
+            }
+        
+        for (let i = 0; i < data.length; i++) 
+            if (data[i].predmetId === predmetId)
+                studentiId.push(data[i].studentId);
+            
+        Student.findAll().then(data => {
+            data = data.map(d => d.dataValues);
+            let studenti = [];
+            for (let i = 0; i < data.length; i++) {
+                if (studentiId.includes(data[i].id))
+                    studenti.push(data[i]);
+            }
 
-    let indexZaAzuriranje = 0;
-    //ovdje ide izmjena u bazi
-    for (let j = 0; j < nasPredmet.prisustva.length; j++) {
-        if (parseInt(nasPredmet.prisustva[j].sedmica) === parseInt(prisustvo.sedmica) && parseInt(nasPredmet.prisustva[j].index) === parseInt(parseInt(index))) {
-            indexZaAzuriranje = j;
-            nasPredmet.prisustva[j].predavanja = prisustvo.predavanja;
-            nasPredmet.prisustva[j].vjezbe = prisustvo.vjezbe;
-            prisustvaPredmeta[indexPredmeta].prisustva[j].predavanja = prisustvo.predavanja;
-            prisustvaPredmeta[indexPredmeta].prisustva[j].vjezbe = prisustvo.vjezbe;
-            break;
-        }
+            vrati.studenti = studenti;
 
-        //u slucaju da moramo dodoati sedmicu i informacije o njoj
-        //ovdje sad ide ubacivanje u bazu
-        if (j === nasPredmet.prisustva.length - 1)
-            prisustvaPredmeta[indexPredmeta].prisustva.splice(j + 1, 0, { "sedmica": prisustvo.sedmica, "predavanja": prisustvo.predavanja, "vjezbe": prisustvo.vjezbe, "index": parseInt(index) });
-    }
+            Prisustvo.findAll().then(data => {
+                data = data.map(d => d.dataValues);
+                let prisustva = [];
 
-    //ovo nista sad, samo vracanje predmeta
-    fs.writeFileSync(path.join(__dirname, 'data', 'prisustva.json'), JSON.stringify(prisustvaPredmeta, null, 2));
-    res.status(200).send(nasPredmet);
+                for (let i = 0; i < data.length; i++) {
+                    if(data[i].predmetId === predmetId && data[i].index===parseInt(index) && data[i].sedmica===prisustvo.sedmica){
+
+                        data[i].predavanja = prisustvo.predavanja;
+                        data[i].vjezbe = prisustvo.vjezbe;
+                        prisustva.push(data[i]);
+                        Prisustvo.update({ predavanja: prisustvo.predavanja, vjezbe: prisustvo.vjezbe }, {   where: {
+                            index: index, 
+                            sedmica: prisustvo.sedmica, 
+                            predmetId: predmetId
+                          }  })
+                            .then(() => {
+                                console.log('Update success');
+                            })
+                            .catch((error) => {
+                                console.log('Error: ', error);
+                            });
+                        continue;
+                    }
+                    if (data[i].predmetId === predmetId){
+                        prisustva.push(data[i]);
+                    }
+                }
+
+                vrati.prisustva = prisustva;
+                vrati.predmet = naziv;
+                vrati.brojPredavanjaSedmicno = req.session.predmeti[indexNasegPredmeta].brojPredavanjaSedmicno;
+                vrati.brojVjezbiSedmicno = req.session.predmeti[indexNasegPredmeta].brojVjezbiSedmicno;
+                if (vrati) {
+                    // console.log('OVDJE SU NAM PRISUSTVA SAD ', vrati)
+                    console.log('tundertf ', vrati);
+                    res.status(200).send(vrati)
+                }
+                else
+                    res.status(404).send('neispravno');
+            })
+        })
+
+    })
 })
 
 app.listen(3000);
 
 
-//imam vise puta citanje u iz prisustva i profesora a trebat ce vrv i za ostale, tkd to bi bilo dobro da se izdvoji u neke metode da se
-//ne duplira kod
+//fali mi dio kada se prisustvo mora ubaciti u bazu
