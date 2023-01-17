@@ -13,16 +13,16 @@ pool: {
 );
 
 
-// async function checkConnection(){
-// try {
-//     // await sequelize.authenticate();
-//     // console.log('Uspjesno ste konektovani na bazu');
-//   } catch (error) {
-//     console.error('Problem prilokom pokusaja konekcije na bazu', error);
-//   }
-// }
+async function checkConnection(){
+try {
+    // await sequelize.authenticate();
+    // console.log('Uspjesno ste konektovani na bazu');
+  } catch (error) {
+    console.error('Problem prilokom pokusaja konekcije na bazu', error);
+  }
+}
 
-// checkConnection();
+checkConnection();
 
 
 /*RELACIJE:

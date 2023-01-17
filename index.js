@@ -5,7 +5,7 @@ const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const bcrypt = require('bcrypt');
-const { Sequelize, sequelize, Nastavnik, Predmet, Prisustvo, Student, PredmetStudent } = require('./baza');
+const { Sequelize, sequelize, Nastavnik, Predmet, Prisustvo, Student, PredmetStudent } = require(path.join(__dirname, 'baza'));
 sequelize.sync().then(() => {
     console.log("Synced db.");
 }).catch((err) => {
@@ -130,7 +130,7 @@ app.get('/predmet/:naziv', (req, res) => {
                 vrati.brojVjezbiSedmicno = req.session.predmeti[indexNasegPredmeta].brojVjezbiSedmicno;
                 if (vrati) {
                     // console.log('OVDJE SU NAM PRISUSTVA SAD ', vrati)
-                    console.log('tundertf ', vrati);
+                    // console.log('tundertf ', vrati);
                     res.status(200).send(vrati)
                 }
                 else
@@ -159,11 +159,11 @@ app.post('/prisustvo/predmet/:naziv/student/:index', (req, res) => {
                 indexNasegPredmeta = i;
                 break;
             }
-        
-        for (let i = 0; i < data.length; i++) 
+
+        for (let i = 0; i < data.length; i++)
             if (data[i].predmetId === predmetId)
                 studentiId.push(data[i].studentId);
-            
+
         Student.findAll().then(data => {
             data = data.map(d => d.dataValues);
             let studenti = [];
@@ -171,24 +171,23 @@ app.post('/prisustvo/predmet/:naziv/student/:index', (req, res) => {
                 if (studentiId.includes(data[i].id))
                     studenti.push(data[i]);
             }
-
             vrati.studenti = studenti;
 
             Prisustvo.findAll().then(data => {
                 data = data.map(d => d.dataValues);
                 let prisustva = [];
-
                 for (let i = 0; i < data.length; i++) {
-                    if(data[i].predmetId === predmetId && data[i].index===parseInt(index) && data[i].sedmica===prisustvo.sedmica){
-
+                    if (data[i].predmetId === predmetId && data[i].index === parseInt(index) && data[i].sedmica === prisustvo.sedmica) {
                         data[i].predavanja = prisustvo.predavanja;
                         data[i].vjezbe = prisustvo.vjezbe;
                         prisustva.push(data[i]);
-                        Prisustvo.update({ predavanja: prisustvo.predavanja, vjezbe: prisustvo.vjezbe }, {   where: {
-                            index: index, 
-                            sedmica: prisustvo.sedmica, 
-                            predmetId: predmetId
-                          }  })
+                        Prisustvo.update({ predavanja: prisustvo.predavanja, vjezbe: prisustvo.vjezbe }, {
+                            where: {
+                                index: index,
+                                sedmica: prisustvo.sedmica,
+                                predmetId: predmetId
+                            }
+                        })
                             .then(() => {
                                 console.log('Update success');
                             })
@@ -197,29 +196,42 @@ app.post('/prisustvo/predmet/:naziv/student/:index', (req, res) => {
                             });
                         continue;
                     }
-                    if (data[i].predmetId === predmetId){
+
+                    //   else if(i==data.length-1){
+                    //         //nema ga u bazi, dodajemo ga
+                    //        Student.findOne({where:{index:index}}).then(st=>{
+                    //             let student = st.dataValues;
+                    //             Prisustvo.create({sedmica: prisustvo.sedmica, predavanja: prisustvo.predavanja, vjezbe: prisustvo.vjezbe, index: index, studentId: student.id, predmetId: predmetId}) .then(p=>{
+                    //                prisustva.push(p.dataValues);
+                    //                 console.log('insert success');
+                    //             })
+                    //             .catch((error) => {
+                    //                 console.log('insert Error: ', error);
+                    //             }); 
+                    //         })
+                    //         continue;
+                    //     }
+                    else if (data[i].predmetId === predmetId) {
                         prisustva.push(data[i]);
+                        continue;
                     }
                 }
 
-                vrati.prisustva = prisustva;
-                vrati.predmet = naziv;
-                vrati.brojPredavanjaSedmicno = req.session.predmeti[indexNasegPredmeta].brojPredavanjaSedmicno;
-                vrati.brojVjezbiSedmicno = req.session.predmeti[indexNasegPredmeta].brojVjezbiSedmicno;
-                if (vrati) {
-                    // console.log('OVDJE SU NAM PRISUSTVA SAD ', vrati)
-                    console.log('tundertf ', vrati);
-                    res.status(200).send(vrati)
-                }
-                else
-                    res.status(404).send('neispravno');
-            })
-        })
 
+            console.log('prekoreda je doslo');
+            vrati.prisustva = prisustva;
+            vrati.predmet = naziv;
+            vrati.brojPredavanjaSedmicno = req.session.predmeti[indexNasegPredmeta].brojPredavanjaSedmicno;
+            vrati.brojVjezbiSedmicno = req.session.predmeti[indexNasegPredmeta].brojVjezbiSedmicno;
+            if (vrati) {
+                res.status(200).send(vrati)
+            }
+            else
+                res.status(404).send('neispravno');
+
+        })
     })
+  })
 })
 
 app.listen(3000);
-
-
-//fali mi dio kada se prisustvo mora ubaciti u bazu

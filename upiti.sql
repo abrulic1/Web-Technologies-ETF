@@ -28,4 +28,3 @@ insert into prisustvos values (14, 2, 1, 2, 12346, 2, 2);
 insert into prisustvos values (15, 3, 1, 2, 12346, 2, 2);
 insert into prisustvos values (16, 1, 1, 0, 12346, 2, 3);
 insert into prisustvos values (17, 2, 1, 0, 12346, 2, 3);
-insert into prisustvos values (18, 3, 1, 0, 12346, 2, 3);
