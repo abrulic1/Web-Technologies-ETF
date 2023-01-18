@@ -143,95 +143,74 @@ app.get('/predmet/:naziv', (req, res) => {
 
 
 
-app.post('/prisustvo/predmet/:naziv/student/:index', (req, res) => {
+app.post('/prisustvo/predmet/:naziv/student/:index', async (req, res) => {
     const { index, naziv } = req.params;
     const prisustvo = req.body;
     //imamo informacije o indexu studenta, nazivu predmeta, sedmici, prisustvu pred i prisustvu vjezbama
     let vrati = {};
-    PredmetStudent.findAll().then(data => {
-        data = data.map(d => d.dataValues);
-        let studentiId = [];
-        let predmetId = 0;
-        let indexNasegPredmeta = 0;
-        for (let i = 0; i < req.session.predmeti.length; i++)
-            if (req.session.predmeti[i].naziv === naziv) {
-                predmetId = req.session.predmeti[i].id;
-                indexNasegPredmeta = i;
-                break;
-            }
+    let predmetstudenti = await PredmetStudent.findAll();
+    
+    let data = predmetstudenti.map(d => d.dataValues);
+    let studentiId = [];
+    let predmetId = 0;
+    let indexNasegPredmeta = 0;
+    for (let i = 0; i < req.session.predmeti.length; i++)
+        if (req.session.predmeti[i].naziv === naziv) {
+            predmetId = req.session.predmeti[i].id;
+            indexNasegPredmeta = i;
+            break;
+        }
 
-        for (let i = 0; i < data.length; i++)
-            if (data[i].predmetId === predmetId)
-                studentiId.push(data[i].studentId);
+    for (let i = 0; i < data.length; i++)
+        if (data[i].predmetId === predmetId)
+            studentiId.push(data[i].studentId);
+    
+    let sviStudenti = await Student.findAll();
+        data = sviStudenti.map(d => d.dataValues);
+        let studenti = [];
+        for (let i = 0; i < data.length; i++) {
+            if (studentiId.includes(data[i].id))
+                studenti.push(data[i]);
+        }
 
-        Student.findAll().then(data => {
-            data = data.map(d => d.dataValues);
-            let studenti = [];
+        vrati.studenti = studenti;
+        let svaPrisustva = await Prisustvo.findAll();
+        
+            data = svaPrisustva.map(d => d.dataValues);
+            let prisustva = [];
+            let apdejtovan = 0;
             for (let i = 0; i < data.length; i++) {
-                if (studentiId.includes(data[i].id))
-                    studenti.push(data[i]);
-            }
-            vrati.studenti = studenti;
-
-            Prisustvo.findAll().then(data => {
-                data = data.map(d => d.dataValues);
-                let prisustva = [];
-                for (let i = 0; i < data.length; i++) {
-                    if (data[i].predmetId === predmetId && data[i].index === parseInt(index) && data[i].sedmica === prisustvo.sedmica) {
-                        data[i].predavanja = prisustvo.predavanja;
-                        data[i].vjezbe = prisustvo.vjezbe;
-                        prisustva.push(data[i]);
-                        Prisustvo.update({ predavanja: prisustvo.predavanja, vjezbe: prisustvo.vjezbe }, {
-                            where: {
-                                index: index,
-                                sedmica: prisustvo.sedmica,
-                                predmetId: predmetId
-                            }
-                        })
-                            .then(() => {
-                                console.log('Update success');
-                            })
-                            .catch((error) => {
-                                console.log('Error: ', error);
-                            });
-                        continue;
-                    }
-
-                    //   else if(i==data.length-1){
-                    //         //nema ga u bazi, dodajemo ga
-                    //        Student.findOne({where:{index:index}}).then(st=>{
-                    //             let student = st.dataValues;
-                    //             Prisustvo.create({sedmica: prisustvo.sedmica, predavanja: prisustvo.predavanja, vjezbe: prisustvo.vjezbe, index: index, studentId: student.id, predmetId: predmetId}) .then(p=>{
-                    //                prisustva.push(p.dataValues);
-                    //                 console.log('insert success');
-                    //             })
-                    //             .catch((error) => {
-                    //                 console.log('insert Error: ', error);
-                    //             }); 
-                    //         })
-                    //         continue;
-                    //     }
-                    else if (data[i].predmetId === predmetId) {
-                        prisustva.push(data[i]);
-                        continue;
-                    }
+                if (data[i].predmetId === predmetId && data[i].index === parseInt(index) && data[i].sedmica === prisustvo.sedmica) {
+                    data[i].predavanja = prisustvo.predavanja;
+                    data[i].vjezbe = prisustvo.vjezbe;
+                    prisustva.push(data[i]);
+                    apdejtovan = 1;
+                    await Prisustvo.update({ predavanja: prisustvo.predavanja, vjezbe: prisustvo.vjezbe }, {where: {index: index, sedmica: prisustvo.sedmica, predmetId: predmetId}});
+                    continue;
                 }
-
-
-            console.log('prekoreda je doslo');
-            vrati.prisustva = prisustva;
-            vrati.predmet = naziv;
-            vrati.brojPredavanjaSedmicno = req.session.predmeti[indexNasegPredmeta].brojPredavanjaSedmicno;
-            vrati.brojVjezbiSedmicno = req.session.predmeti[indexNasegPredmeta].brojVjezbiSedmicno;
-            if (vrati) {
-                res.status(200).send(vrati)
+                if (data[i].predmetId === predmetId) {
+                    prisustva.push(data[i]);
+                    continue;
+                }
             }
-            else
-                res.status(404).send('neispravno');
 
-        })
+            if(apdejtovan===0){
+                let student = await Student.findOne({where:{index:index}});
+                student = student.dataValues;
+                let prisustvoZaUbacit = await Prisustvo.create({sedmica: prisustvo.sedmica, predavanja: prisustvo.predavanja, vjezbe: prisustvo.vjezbe, index: parseInt(index), studentId: student.id, predmetId: predmetId});
+                prisustvoZaUbacit = prisustvoZaUbacit.dataValues;
+                prisustva.push(prisustvoZaUbacit);
+            }
+
+        vrati.prisustva = prisustva;
+        vrati.predmet = naziv;
+        vrati.brojPredavanjaSedmicno = req.session.predmeti[indexNasegPredmeta].brojPredavanjaSedmicno;
+        vrati.brojVjezbiSedmicno = req.session.predmeti[indexNasegPredmeta].brojVjezbiSedmicno;
+        if (vrati) {
+            res.status(200).send(vrati)
+        }
+        else
+            res.status(404).send('neispravno');
     })
-  })
-})
 
 app.listen(3000);
