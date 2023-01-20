@@ -1,3 +1,11 @@
+**Defaultno popunjavanje baze podacima**
+Nakon sto se ukuca komanda "npm install" i instaliraju se svi potrebni paketi koji su ukljuceni u package.json fajlu, potrebno je ukucati komandu "node index" ili komandu "npx nodemon index" da se pokrene server. Nakon sto se server uspjesno pokrenuo i nakon sto su se tim putem kreirale tabele u bazi, potrebno je u cmd ili worbenchu ili nekom drugom alatu prijaviti se na bazu komandom "mysql -u root -p" gdje se nakon ENTER tipke kuca password "password". Nakon toga se kuca "use wt22" kako bi se specificiralo koja se baza koristi, te potom samo zalijepiti INSERT komande sve odjednom iz upiti.sql fajla koji se nalazi u pocetnom direktoriju 
+da zalijepite inserte koji se nalaze u pocetnom direktoriju spirale u fajlu upiti.sql. Nakon toga je potrebno samo refreshat stranicu, i sada cete moci pokrenuti stranicu i pregledati da li sve radi kako ste ocekivali.
+
+Moglo se uraditi i kroz kod kao na nacin na koji je to uradjeno u dodatku za vjezbu 10, ali je na PIAZZI dozvoljeno da se ovako uradi, tako sa sam zato i ja ostavila ovakao. 
+
+
+
 **Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
 
 When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
