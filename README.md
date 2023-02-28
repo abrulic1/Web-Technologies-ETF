@@ -7,6 +7,6 @@ Steps to run the application:
 6. Type <b>node index</b> in Git Bash
 7. Type <b>localhost:3000/prijava</b> into the browser<br>
 
-I have 2 test users for login, so you can enter:<br> i) for username: USERNAME and for password PASSWORDHASH<br> ii) for username: USERNAME2 and for password password<br>
+I have 2 test users for login, so you can enter:<br> i) for username: <b>USERNAME</b> and for password: <b>PASSWORDHASH</b><br> ii) for username: <b>USERNAME2</b> and for password: <b>password</b><br>
 
 If you have any questions, feel free to contact me through the following email: abrulic1@etf.unsa.ba.
